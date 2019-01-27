@@ -9,9 +9,9 @@ public class Knight extends Piece implements Serializable {
         super(x, y, colour);
         ImageIcon icon;
         if (colour == 0) {
-            icon = new ImageIcon("C:\\Users\\Daniel\\IdeaProjects\\AntiChess\\src\\images\\White_Knight.png");
+            icon = new ImageIcon("src/images/White_Knight.png");
         } else {
-            icon = new ImageIcon("C:\\Users\\Daniel\\IdeaProjects\\AntiChess\\src\\images\\Black_Knight.png");
+            icon = new ImageIcon("src/images/Black_Knight.png");
         }
 
         this.pieceIcon = icon;
