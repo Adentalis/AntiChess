@@ -14,16 +14,15 @@ class Check {
 
         int[] var3 = new int[]{1, -1, 0, 0, 1, -1, 1, -1};
         int[] var4 = new int[]{0, 0, 1, -1, 1, 1, -1, -1};
-        int var5 = king.x;
-        int var6 = king.y;
+
         boolean var7 = false;
 
         int var10;
         label101:
         for(int var8 = 0; var8 < 8; ++var8) {
-            int var9 = var5 + var3[var8];
+            int var9 = king.x + var3[var8];
 
-            for(var10 = var6 + var4[var8]; king.isValid(var9, var10) && !var7; var10 += var4[var8]) {
+            for(var10 = king.y + var4[var8]; king.isValid(var9, var10) && !var7; var10 += var4[var8]) {
                 if (!var0[var9][var10].isEmpty() && var0[var9][var10].getColour() != king.getColour()) {
                     Piece var11 = var0[var9][var10].getPiece();
                     String var12 = var11.getPieceId();
@@ -52,7 +51,7 @@ class Check {
 
                     switch(var13) {
                         case 0:
-                            if (var8 >= 4 && var8 < 8 && var9 == var5 + var3[var8] && var10 == var6 + var4[var8]) {
+                            if (var8 >= 4 && var8 < 8 && var9 == king.x + var3[var8] && var10 == king.y + var4[var8]) {
                                 var7 = true;
                             }
                             continue label101;
@@ -86,8 +85,8 @@ class Check {
             int[] var15 = new int[]{-1, 1, 1, -1, 2, 2, -2, -2};
 
             for(int var17 = 0; var17 < 8; ++var17) {
-                var10 = var5 + var14[var17];
-                int var16 = var6 + var15[var17];
+                var10 = king.x + var14[var17];
+                int var16 = king.y + var15[var17];
                 if (king.isValid(var10, var16) && !var0[var10][var16].isEmpty() && var0[var10][var16].getColour() != king.getColour() && var0[var10][var16].getPiece().getPieceId().equals("KNIGHT")) {
                     var7 = true;
                     break;
