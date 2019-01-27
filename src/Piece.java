@@ -29,7 +29,7 @@ public abstract class Piece implements Serializable {
         this.colour = colour;
         this.pieceObj = this;
     }
-
+    //flag?
     public void setXY(int var1, int var2) {
         this.flag = 1;
         this.x = var1;
