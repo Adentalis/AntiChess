@@ -9,9 +9,9 @@ public class King extends Piece implements Serializable {
         super(x, y, colour);
         ImageIcon icon;
         if (colour == 0) {
-            icon = new ImageIcon("C:\\Users\\Daniel\\IdeaProjects\\AntiChess\\src\\images\\White_King.png");
+            icon = new ImageIcon("src/images/White_King.png");
         } else {
-            icon = new ImageIcon("C:\\Users\\Daniel\\IdeaProjects\\AntiChess\\src\\images\\Black_King.png");
+            icon = new ImageIcon("src/images/Black_King.png");
         }
 
         this.pieceIcon = icon;

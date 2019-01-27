@@ -8,9 +8,9 @@ public class Rook extends Piece {
         super(x, y, colour);
         ImageIcon icon;
         if (colour == 0) {
-            icon = new ImageIcon("C:\\Users\\Daniel\\IdeaProjects\\AntiChess\\src\\images\\White_Rook.png");
+            icon = new ImageIcon("src/images/White_Rook.png");
         } else {
-            icon = new ImageIcon("C:\\Users\\Daniel\\IdeaProjects\\AntiChess\\src\\images\\Black_Rook.png");
+            icon = new ImageIcon("src/images/Black_Rook.png");
         }
 
         this.pieceIcon = icon;

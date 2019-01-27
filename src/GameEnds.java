@@ -73,7 +73,7 @@ public class GameEnds extends JFrame implements ActionListener, Serializable {
         this.setResizable(false);
 
         try {
-            this.setIconImage(ImageIO.read(new File("C:\\Users\\Daniel\\IdeaProjects\\AntiChess\\src\\AntiChess_icon.png")));
+            this.setIconImage(ImageIO.read(new File("src/images/AntiChess_icon.png")));
         } catch (IOException var2) {
             var2.printStackTrace();
         }

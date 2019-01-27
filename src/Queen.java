@@ -7,9 +7,9 @@ public class Queen extends Piece {
         super(x, y, colour);
         ImageIcon icon;
         if (colour == 0) {
-            icon = new ImageIcon("C:\\Users\\Daniel\\IdeaProjects\\AntiChess\\src\\images\\White_Queen.png");
+            icon = new ImageIcon("src/images/White_Queen.png");
         } else {
-            icon = new ImageIcon("C:\\Users\\Daniel\\IdeaProjects\\AntiChess\\src\\images\\Black_Queen.png");
+            icon = new ImageIcon("src/images/Black_Queen.png");
         }
 
         this.pieceIcon = icon;

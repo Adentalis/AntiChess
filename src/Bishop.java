@@ -11,9 +11,9 @@ public class Bishop extends Piece {
         super(x, y, colour);
         ImageIcon icon;
         if (colour == 0) {
-            icon = new ImageIcon("C:\\Users\\Daniel\\IdeaProjects\\AntiChess\\src\\images\\White_Bishop.png");
+            icon = new ImageIcon("src/images/White_Bishop.png");
         } else {
-            icon = new ImageIcon("C:\\Users\\Daniel\\IdeaProjects\\AntiChess\\src\\images\\Black_Bishop.png");
+            icon = new ImageIcon("src/images/Black_Bishop.png");
         }
 
         this.pieceIcon = icon;
