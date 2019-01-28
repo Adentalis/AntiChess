@@ -1,12 +1,9 @@
-package logic;
+package Pieces;
 
-import Pieces.Piece;
+import logic.Cell;
 
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
-
-
-
 
 public class Bishop extends Piece {
 

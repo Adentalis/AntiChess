@@ -1,6 +1,5 @@
 package Pieces;
 
-import logic.Bishop;
 import logic.Cell;
 
 import java.awt.Button;
