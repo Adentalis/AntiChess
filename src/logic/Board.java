@@ -54,7 +54,7 @@ public class Board implements ActionListener, Serializable {
 
     private HashMap<String, Integer> blackPiece;
     private HashMap<String, Integer> whitePiece;
-    private Cell[][] map;
+    public Cell[][] map;
     private ArrayList<Cell> highlightedCells = new ArrayList();
 
     public King whiteKing;
@@ -122,10 +122,10 @@ public class Board implements ActionListener, Serializable {
         //creates numbers and fill Cells with Color
         for( int i = 1; i < 9; ++i) {
             int j = 0;
-            
+
             numbers[j] = new JLabel("" + (9 - i), 0);
             this.boardPanel.add(numbers[j++]);
-            
+
             for(int k = 1; k < 9; ++k) {
                 this.map[i][k] = new Cell(i, k);
                 if ((i % 2 == 0 || i * k % 2 != 1) && (i % 2 != 0 || k % 2 != 0)) {
@@ -619,4 +619,119 @@ public class Board implements ActionListener, Serializable {
         }
 
     }
+
+    //NOW
+    public void movePieceAsBot(Cell targetCell,Piece piece) {
+        piece.setXY(targetCell.x, targetCell.y);
+
+        //If on the Target is an enemy Pieces.Piece
+        if (!targetCell.isEmpty()) {
+            int pieceId;
+            //if Enemy is White
+            //remove the hit Pieces.Piece from the whitePiece_arrayList and from hashtable
+            if (targetCell.getColour() == Colour.WHITE) {
+                pieceId = (Integer)this.whitePiece.get(targetCell.getPieceId());
+                this.whitePiece.put(targetCell.getPieceId(), pieceId - 1);
+
+                for(int i = 0; i < this.whitePeaces_arrayList.size(); ++i) {
+                    if (targetCell.x == ((Piece)this.whitePeaces_arrayList.get(i)).getX() && targetCell.y == ((Piece)this.whitePeaces_arrayList.get(i)).getY()) {
+                        this.whitePeaces_arrayList.remove(i);
+                        break;
+                    }
+                }
+                //Else Enemy is Black
+            } else {
+                pieceId = (Integer)this.blackPiece.get(targetCell.getPieceId());
+                this.blackPiece.put(targetCell.getPieceId(), pieceId - 1);
+
+                for(int i = 0; i < this.blackPeaces_arrayList.size(); ++i) {
+                    if (targetCell.x == ((Piece)this.blackPeaces_arrayList.get(i)).getX() && targetCell.y == ((Piece)this.blackPeaces_arrayList.get(i)).getY()) {
+                        this.blackPeaces_arrayList.remove(i);
+                        break;
+                    }
+                }
+            }
+        }
+        //remove hit Pieces.Piece and place new Pieces.Piece there
+        targetCell.addPiece(piece);
+        this.selectedCell.removePiece();
+
+        //change turn
+        this.turn = (this.turn + 1) % 2;
+        if (this.turn == 0) {
+            this.setTurnLabel(this.player2_JLabel.getText());
+        } else {
+            this.setTurnLabel(this.player1_JLabel.getText());
+        }
+
+        //unhighlight all Cells
+        if (!this.highlightedCells.isEmpty()) {
+            LineBorder var6 = new LineBorder(Color.BLACK, 0);
+
+            for(int i = 0; i < this.highlightedCells.size(); ++i) {
+                Cell var5 = (Cell)this.highlightedCells.get(i);
+                var5.setBorder(var6);
+            }
+
+            this.highlightedCells.clear();
+        }
+        this.selectedCell = null;
+
+        //if a Pieces.Pawn reached other side of map (PROMOTE Scenario)
+        if (!targetCell.isEmpty() && targetCell.getPieceId().equals("PAWN") && (targetCell.x == 1 || targetCell.x == 8)) {
+            Pawn promotedPawn = (Pawn)targetCell.getPiece();
+            promotedPawn.promotePawn(this.boardFrame, this.map);
+            if (promotedPawn.getColour() == Colour.WHITE) {
+                for(int i = 0; i < this.whitePeaces_arrayList.size(); ++i) {
+                    if (promotedPawn.x == ((Piece)this.whitePeaces_arrayList.get(i)).getX() && promotedPawn.y == ((Piece)this.whitePeaces_arrayList.get(i)).getY()) {
+                        this.whitePeaces_arrayList.remove(i);
+                        break;
+                    }
+                }
+            } else {
+                for(int i = 0; i < this.blackPeaces_arrayList.size(); ++i) {
+                    if (promotedPawn.x == ((Piece)this.blackPeaces_arrayList.get(i)).getX() && promotedPawn.y == ((Piece)this.blackPeaces_arrayList.get(i)).getY()) {
+                        this.blackPeaces_arrayList.remove(i);
+                        break;
+                    }
+                }
+            }
+
+            if (this.map[promotedPawn.getX()][promotedPawn.getY()].getColour() == Colour.WHITE) {
+                this.whitePeaces_arrayList.add(this.map[promotedPawn.getX()][promotedPawn.getY()].getPiece());
+            } else {
+                this.blackPeaces_arrayList.add(this.map[promotedPawn.getX()][promotedPawn.getY()].getPiece());
+            }
+        }
+
+        //check for check
+        if(turn%2 == 0)
+            this.checkFlag = Check.check(this.map, Colour.WHITE);
+        else
+            this.checkFlag = Check.check(this.map, Colour.BLACK);
+
+        if (this.checkFlag) {
+            this.checkLabel.setText("     Check!!    ");
+        } else {
+            this.checkLabel.setText("               ");
+        }
+
+        this.checkMateFlag = this.checkMate();
+        if (this.checkFlag && this.checkMateFlag) {
+            String winnerName;
+            if (this.turn == 0) {
+                winnerName = "Black Wins";
+            } else {
+                winnerName = "White Wins";
+            }
+
+            this.gameEnder = new GameEnds(this);
+            this.gameEnder.endGame(winnerName);
+        } else if (this.checkMateFlag) {
+            this.gameEnder = new GameEnds(this);
+            this.gameEnder.endGame("DRAW");
+        }
+
+    }
 }
+
