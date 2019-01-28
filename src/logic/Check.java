@@ -1,4 +1,9 @@
-class Check {
+package logic;
+
+import Pieces.King;
+import Pieces.Piece;
+
+public class Check {
     private static Board board;
 
     Check() {

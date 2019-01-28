@@ -1,4 +1,6 @@
+package logic;
 
+import Pieces.Piece;
 
 import java.io.Serializable;
 import javax.swing.Icon;

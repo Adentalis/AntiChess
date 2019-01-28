@@ -1,3 +1,7 @@
+package logic;
+
+import Pieces.Piece;
+
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 

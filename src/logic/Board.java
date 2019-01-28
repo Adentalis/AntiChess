@@ -1,3 +1,7 @@
+package logic;
+
+import Pieces.*;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -154,11 +158,11 @@ class Board implements ActionListener, Serializable {
             this.map[7][i].addPiece(pawn);
             this.whitePeaces_arrayList.add(pawn);
         }
-        //create Queen
+        //create Pieces.Queen
         Queen queen = new Queen(8, 4, 0);
         this.map[8][4].addPiece(queen);
         this.whitePeaces_arrayList.add(queen);
-        //create King
+        //create Pieces.King
         this.whiteKing = new King(8, 5, 0);
         this.whitePeaces_arrayList.add(this.whiteKing);
         this.map[8][5].addPiece(this.whiteKing);
@@ -194,11 +198,11 @@ class Board implements ActionListener, Serializable {
             this.map[2][i].addPiece(var2);
             this.blackPeaces_arrayList.add(var2);
         }
-        //create Queen
+        //create Pieces.Queen
         Queen queen = new Queen(1, 4, 1);
         this.map[1][4].addPiece(queen);
         this.blackPeaces_arrayList.add(queen);
-        //create King
+        //create Pieces.King
         this.blackKing = new King(1, 5, 1);
         this.map[1][5].addPiece(this.blackKing);
         this.blackPeaces_arrayList.add(this.blackKing);
@@ -397,17 +401,17 @@ class Board implements ActionListener, Serializable {
 
         }
     }
-    //targetCell = the Cell the Piece wants to move
+    //targetCell = the Cell the Pieces.Piece wants to move
     //fertig
     public void movePiece(Cell targetCell) {
         Piece piece = this.selectedCell.getPiece();
         piece.setXY(targetCell.x, targetCell.y);
 
-        //If on the Target is an enemy Piece
+        //If on the Target is an enemy Pieces.Piece
         if (!targetCell.isEmpty()) {
             int pieceId;
             //if Enemy is White
-            //remove the hit Piece from the whitePiece_arrayList and from hashtable
+            //remove the hit Pieces.Piece from the whitePiece_arrayList and from hashtable
             if (targetCell.getColour() == 0) {
                 pieceId = (Integer)this.whitePiece.get(targetCell.getPieceId());
                 this.whitePiece.put(targetCell.getPieceId(), pieceId - 1);
@@ -431,7 +435,7 @@ class Board implements ActionListener, Serializable {
                 }
             }
         }
-        //remove hit Piece and place new Piece there
+        //remove hit Pieces.Piece and place new Pieces.Piece there
         targetCell.addPiece(piece);
         this.selectedCell.removePiece();
 
@@ -456,7 +460,7 @@ class Board implements ActionListener, Serializable {
         }
         this.selectedCell = null;
 
-        //if a Pawn reached other side of map (PROMOTE Scenario)
+        //if a Pieces.Pawn reached other side of map (PROMOTE Scenario)
         if (!targetCell.isEmpty() && targetCell.getPieceId().equals("PAWN") && (targetCell.x == 1 || targetCell.x == 8)) {
             Pawn promotedPawn = (Pawn)targetCell.getPiece();
             promotedPawn.promotePawn(this.boardFrame, this.map);

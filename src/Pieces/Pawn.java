@@ -1,3 +1,8 @@
+package Pieces;
+
+import logic.Bishop;
+import logic.Cell;
+
 import java.awt.Button;
 import java.awt.Choice;
 import java.awt.Dialog;
@@ -120,7 +125,7 @@ public class Pawn extends Piece implements Serializable, ActionListener {
 
     public void actionPerformed(ActionEvent var1) {
         this.newPieceId = this.newPiece.getItem(this.newPiece.getSelectedIndex());
-        this.statusLabel.setText("Piece Selected: " + this.newPieceId);
+        this.statusLabel.setText("Pieces.Piece Selected: " + this.newPieceId);
         String var2;
         byte var3;
         Knight var4;

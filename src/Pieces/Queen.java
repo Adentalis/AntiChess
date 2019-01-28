@@ -1,21 +1,24 @@
-import java.io.Serializable;
+package Pieces;
+
+import Pieces.Piece;
+import logic.Cell;
+
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
-public class King extends Piece implements Serializable {
-
+public class Queen extends Piece {
     //fertig
-    public King(int x, int y, int colour) {
+    public Queen(int x, int y, int colour) {
         super(x, y, colour);
         ImageIcon icon;
         if (colour == 0) {
-            icon = new ImageIcon("src/images/White_King.png");
+            icon = new ImageIcon("src/images/White_Queen.png");
         } else {
-            icon = new ImageIcon("src/images/Black_King.png");
+            icon = new ImageIcon("src/images/Black_Queen.png");
         }
 
         this.pieceIcon = icon;
-        this.pieceId = "KING";
+        this.pieceId = "QUEEN";
     }
 
     public ArrayList<Cell> getValidMoves(Cell[][] map, int x, int y, boolean var4) {
@@ -28,10 +31,13 @@ public class King extends Piece implements Serializable {
 
         for(int var9 = 0; var9 < 8; ++var9) {
             var7 += var5[var9];
-            var8 += var6[var9];
-            if (this.isValid(var7, var8) && map[var7][var8].isEmpty()) {
+
+            for(var8 += var6[var9]; this.isValid(var7, var8) && map[var7][var8].isEmpty(); var8 += var6[var9]) {
                 this.pseudoValidMoves.add(map[var7][var8]);
-            } else if (this.isValid(var7, var8) && map[var7][var8].getColour() != this.colour) {
+                var7 += var5[var9];
+            }
+
+            if (this.isValid(var7, var8) && map[var7][var8].getColour() != this.colour) {
                 this.pseudoValidMoves.add(map[var7][var8]);
             }
 
@@ -50,6 +56,6 @@ public class King extends Piece implements Serializable {
     public void move(int var1, int var2) {
         this.x = this.x;
         this.y = this.y;
-        this.alreadyMoved = 1;
     }
 }
+

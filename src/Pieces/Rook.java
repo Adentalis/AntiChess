@@ -1,5 +1,10 @@
-import java.util.ArrayList;
+package Pieces;
+
+
+import logic.Cell;
+
 import javax.swing.ImageIcon;
+import java.util.ArrayList;
 
 public class Rook extends Piece {
 
@@ -33,7 +38,7 @@ public class Rook extends Piece {
                 tempX += moveListX[i];
             }
 
-            //if enemy Piece it can be attacked as well
+            //if enemy Pieces.Piece it can be attacked as well
             if (this.isValid(tempX, tempY) && map[tempX][tempY].getColour() != this.colour) {
                 this.pseudoValidMoves.add(map[tempX][tempY]);
             }
