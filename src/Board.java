@@ -54,7 +54,7 @@ class Board implements ActionListener, Serializable {
     public King whiteKing;
     public King blackKing;
     private boolean checkFlag;
-    private int chance;
+    private int turn;
     private Cell selectedCell;
     private ArrayList<Piece> whitePeaces_arrayList;
     private ArrayList<Piece> blackPeaces_arrayList;
@@ -86,7 +86,7 @@ class Board implements ActionListener, Serializable {
         this.initialiseBoard();
         this.initialiseTurnAndCheckLabels();
 
-        this.chance = 0;
+        this.turn = 0;
         this.checkFlag = false;
         this.checkMateFlag = false;
         this.boardFrame.add(this.player1Panel, "North");
@@ -297,7 +297,7 @@ class Board implements ActionListener, Serializable {
         this.initialiseWhitePieces();
         this.initialiseBlackPieces();
         this.initialiseHashMAP();
-        this.chance = 0;
+        this.turn = 0;
     }
     //fertig
     void setIcon() {
@@ -335,7 +335,7 @@ class Board implements ActionListener, Serializable {
     public void setPlayerJLabels(String p1name, String p2name) {
         this.player1_JLabel.setText(p1name);
         this.player2_JLabel.setText(p2name);
-        if (this.chance == 0) {
+        if (this.turn == 0) {
             this.setTurnLabel(this.player2_JLabel.getText());
         } else {
             this.setTurnLabel(this.player1_JLabel.getText());
@@ -345,13 +345,13 @@ class Board implements ActionListener, Serializable {
 
     }
 
-    public int getChance() {
-        return this.chance;
+    public int getTurn() {
+        return this.turn;
     }
 
-    public void setChance(int chance) {
-        this.chance = chance;
-        if (chance == 0) {
+    public void setTurn(int turn) {
+        this.turn = turn;
+        if (turn == 0) {
             this.setTurnLabel(this.player2_JLabel.getText());
         } else {
             this.setTurnLabel(this.player1_JLabel.getText());
@@ -389,7 +389,7 @@ class Board implements ActionListener, Serializable {
             if (this.highlightedCells.contains(cell)) {
                 this.movePiece(cell);
                 //markiere Felder
-            } else if (piece != null && this.chance == cell.getColour()) {
+            } else if (piece != null && this.turn == cell.getColour()) {
                 ArrayList validMovesList = piece.getValidMoves(this.map, cell.x, cell.y, false);
                 this.highlightCells(validMovesList,piece.pieceId);
                 this.selectedCell = cell;
@@ -398,15 +398,19 @@ class Board implements ActionListener, Serializable {
         }
     }
     //targetCell = the Cell the Piece wants to move
+    //fertig
     public void movePiece(Cell targetCell) {
         Piece piece = this.selectedCell.getPiece();
         piece.setXY(targetCell.x, targetCell.y);
 
+        //If on the Target is an enemy Piece
         if (!targetCell.isEmpty()) {
-            int var3;
+            int pieceId;
+            //if Enemy is White
+            //remove the hit Piece from the whitePiece_arrayList and from hashtable
             if (targetCell.getColour() == 0) {
-                var3 = (Integer)this.whitePiece.get(targetCell.getPieceId());
-                this.whitePiece.put(targetCell.getPieceId(), var3 - 1);
+                pieceId = (Integer)this.whitePiece.get(targetCell.getPieceId());
+                this.whitePiece.put(targetCell.getPieceId(), pieceId - 1);
 
                 for(int i = 0; i < this.whitePeaces_arrayList.size(); ++i) {
                     if (targetCell.x == ((Piece)this.whitePeaces_arrayList.get(i)).getX() && targetCell.y == ((Piece)this.whitePeaces_arrayList.get(i)).getY()) {
@@ -414,9 +418,10 @@ class Board implements ActionListener, Serializable {
                         break;
                     }
                 }
+                //Else Enemy is Black
             } else {
-                var3 = (Integer)this.blackPiece.get(targetCell.getPieceId());
-                this.blackPiece.put(targetCell.getPieceId(), var3 - 1);
+                pieceId = (Integer)this.blackPiece.get(targetCell.getPieceId());
+                this.blackPiece.put(targetCell.getPieceId(), pieceId - 1);
 
                 for(int i = 0; i < this.blackPeaces_arrayList.size(); ++i) {
                     if (targetCell.x == ((Piece)this.blackPeaces_arrayList.get(i)).getX() && targetCell.y == ((Piece)this.blackPeaces_arrayList.get(i)).getY()) {
@@ -426,18 +431,19 @@ class Board implements ActionListener, Serializable {
                 }
             }
         }
-
+        //remove hit Piece and place new Piece there
         targetCell.addPiece(piece);
+        this.selectedCell.removePiece();
 
-
-        this.chance = (this.chance + 1) % 2;
-        if (this.chance == 0) {
+        //change turn
+        this.turn = (this.turn + 1) % 2;
+        if (this.turn == 0) {
             this.setTurnLabel(this.player2_JLabel.getText());
         } else {
             this.setTurnLabel(this.player1_JLabel.getText());
         }
 
-        this.selectedCell.removePiece();
+        //unhighlight all Cells
         if (!this.highlightedCells.isEmpty()) {
             LineBorder var6 = new LineBorder(Color.BLACK, 0);
 
@@ -448,36 +454,37 @@ class Board implements ActionListener, Serializable {
 
             this.highlightedCells.clear();
         }
-
         this.selectedCell = null;
+
+        //if a Pawn reached other side of map (PROMOTE Scenario)
         if (!targetCell.isEmpty() && targetCell.getPieceId().equals("PAWN") && (targetCell.x == 1 || targetCell.x == 8)) {
-            Pawn var7 = (Pawn)targetCell.getPiece();
-            var7.promotePawn(this.boardFrame, this.map);
-            if (var7.getColour() == 0) {
+            Pawn promotedPawn = (Pawn)targetCell.getPiece();
+            promotedPawn.promotePawn(this.boardFrame, this.map);
+            if (promotedPawn.getColour() == 0) {
                 for(int i = 0; i < this.whitePeaces_arrayList.size(); ++i) {
-                    if (var7.x == ((Piece)this.whitePeaces_arrayList.get(i)).getX() && var7.y == ((Piece)this.whitePeaces_arrayList.get(i)).getY()) {
+                    if (promotedPawn.x == ((Piece)this.whitePeaces_arrayList.get(i)).getX() && promotedPawn.y == ((Piece)this.whitePeaces_arrayList.get(i)).getY()) {
                         this.whitePeaces_arrayList.remove(i);
                         break;
                     }
                 }
             } else {
                 for(int i = 0; i < this.blackPeaces_arrayList.size(); ++i) {
-                    if (var7.x == ((Piece)this.blackPeaces_arrayList.get(i)).getX() && var7.y == ((Piece)this.blackPeaces_arrayList.get(i)).getY()) {
+                    if (promotedPawn.x == ((Piece)this.blackPeaces_arrayList.get(i)).getX() && promotedPawn.y == ((Piece)this.blackPeaces_arrayList.get(i)).getY()) {
                         this.blackPeaces_arrayList.remove(i);
                         break;
                     }
                 }
             }
 
-            if (this.map[var7.getX()][var7.getY()].getColour() == 0) {
-                this.whitePeaces_arrayList.add(this.map[var7.getX()][var7.getY()].getPiece());
+            if (this.map[promotedPawn.getX()][promotedPawn.getY()].getColour() == 0) {
+                this.whitePeaces_arrayList.add(this.map[promotedPawn.getX()][promotedPawn.getY()].getPiece());
             } else {
-                this.blackPeaces_arrayList.add(this.map[var7.getX()][var7.getY()].getPiece());
+                this.blackPeaces_arrayList.add(this.map[promotedPawn.getX()][promotedPawn.getY()].getPiece());
             }
         }
 
-
-        this.checkFlag = Check.check(this.map, this.chance);
+        //check for check
+        this.checkFlag = Check.check(this.map, this.turn);
         if (this.checkFlag) {
             this.checkLabel.setText("     Check!!    ");
         } else {
@@ -486,15 +493,15 @@ class Board implements ActionListener, Serializable {
 
         this.checkMateFlag = this.checkMate();
         if (this.checkFlag && this.checkMateFlag) {
-            String var8;
-            if (this.chance == 0) {
-                var8 = "Black Wins";
+            String winnerName;
+            if (this.turn == 0) {
+                winnerName = "Black Wins";
             } else {
-                var8 = "White Wins";
+                winnerName = "White Wins";
             }
 
             this.gameEnder = new GameEnds(this);
-            this.gameEnder.endGame(var8);
+            this.gameEnder.endGame(winnerName);
         } else if (this.checkMateFlag) {
             this.gameEnder = new GameEnds(this);
             this.gameEnder.endGame("DRAW");
@@ -537,7 +544,7 @@ class Board implements ActionListener, Serializable {
         int var2;
         ArrayList var3;
         Piece var4;
-        if (this.chance == 0) {
+        if (this.turn == 0) {
             for(var2 = 0; var2 < this.whitePeaces_arrayList.size(); ++var2) {
                 var4 = (Piece)this.whitePeaces_arrayList.get(var2);
                 var3 = var4.getValidMoves(this.map, var4.getX(), var4.getY(), false);

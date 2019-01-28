@@ -126,7 +126,7 @@ class MenuListener implements ActionListener, Serializable {
             }
         }
 
-        this.board.setChance(board.getChance());
+        this.board.setTurn(board.getTurn());
         this.board.setHashMaps(board.getWhiteHashMap(), board.getBlackHashMap());
 
     }
