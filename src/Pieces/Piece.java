@@ -86,4 +86,8 @@ public abstract class Piece implements Serializable {
 
         return this.validMoves;
     }
+
+    public String toString(){
+        return pieceId+"  x:"+x+" y:"+y;
+    }
 }

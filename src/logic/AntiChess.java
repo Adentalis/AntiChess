@@ -1,7 +1,11 @@
 package logic;
 
-import Pieces.Pawn;
-import helper.Colour;
+
+import Pieces.Piece;
+import Players.RandomBot;
+
+import java.util.ArrayList;
+
 
 public class AntiChess {
 
@@ -10,6 +14,16 @@ public class AntiChess {
         board.setPlayerJLabels("Daniel", "Bot12");
         board.setTurnLabel(board.getPlayer2Name());
 
+        RandomBot bot = new RandomBot("BOT");
+
+        ArrayList<Piece> whitePeaces_arrayList = board.whitePeaces_arrayList;
+        for(Piece p : whitePeaces_arrayList){
+            System.out.println(p.toString());
+            ArrayList<Cell> possibleMoves= p.getValidMoves(board.map,p.x,p.y,false);
+            for(Cell c :possibleMoves ){
+                System.out.println(c.toString());
+            }
+        }
 
     }
 }
