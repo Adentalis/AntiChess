@@ -1,5 +1,6 @@
 package Pieces;
 
+import helper.Colour;
 import logic.Cell;
 import helper.Check;
 
@@ -11,7 +12,7 @@ public abstract class Piece implements Serializable {
     public Icon pieceIcon;
     public int x;
     public int y;
-    public int colour;
+    public Colour colour;
     public String pieceId;
     public int alreadyMoved = 0; //0 = piece not moved yet
     public Piece pieceObj;
@@ -27,11 +28,12 @@ public abstract class Piece implements Serializable {
     public abstract ArrayList<Cell> getValidMoves(Cell[][] map, int x, int y, boolean var4);
 
     //fertig
-    public Piece(int var1, int var2, int colour) {
+    public Piece(int var1, int var2, Colour colour) {
         this.x = var1;
         this.y = var2;
         this.colour = colour;
         this.pieceObj = this;
+
     }
     //fertig
     public void setXY(int x, int y) {
@@ -40,7 +42,7 @@ public abstract class Piece implements Serializable {
         this.y = y;
     }
 
-    public int getColour() {
+    public Colour getColour() {
         return this.colour;
     }
 

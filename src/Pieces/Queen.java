@@ -1,6 +1,7 @@
 package Pieces;
 
 import Pieces.Piece;
+import helper.Colour;
 import logic.Cell;
 
 import java.util.ArrayList;
@@ -8,10 +9,10 @@ import javax.swing.ImageIcon;
 
 public class Queen extends Piece {
     //fertig
-    public Queen(int x, int y, int colour) {
+    public Queen(int x, int y, Colour colour) {
         super(x, y, colour);
         ImageIcon icon;
-        if (colour == 0) {
+        if (colour == Colour.WHITE) {
             icon = new ImageIcon("src/images/White_Queen.png");
         } else {
             icon = new ImageIcon("src/images/Black_Queen.png");

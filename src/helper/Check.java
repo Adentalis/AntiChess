@@ -11,9 +11,9 @@ public class Check {
     Check() {
     }
 
-    public static boolean check(Cell[][] var0, int colour) {
+    public static boolean check(Cell[][] var0, Colour colour) {
         King king;
-        if (colour == 0) {
+        if (colour == Colour.WHITE) {
             king = board.whiteKing;
         } else {
             king = board.blackKing;

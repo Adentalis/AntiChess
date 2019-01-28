@@ -2,6 +2,7 @@ package logic;
 
 import Pieces.*;
 import helper.Check;
+import helper.Colour;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -155,37 +156,37 @@ public class Board implements ActionListener, Serializable {
 
         //create pawns
         for(int i = 1; i < 9; ++i) {
-            Pawn pawn = new Pawn(7, i, 0);
+            Pawn pawn = new Pawn(7, i, Colour.WHITE);
             this.map[7][i].addPiece(pawn);
             this.whitePeaces_arrayList.add(pawn);
         }
         //create Pieces.Queen
-        Queen queen = new Queen(8, 4, 0);
+        Queen queen = new Queen(8, 4, Colour.WHITE);
         this.map[8][4].addPiece(queen);
         this.whitePeaces_arrayList.add(queen);
         //create Pieces.King
-        this.whiteKing = new King(8, 5, 0);
+        this.whiteKing = new King(8, 5, Colour.WHITE);
         this.whitePeaces_arrayList.add(this.whiteKing);
         this.map[8][5].addPiece(this.whiteKing);
         //create bishops
-        Bishop bishop = new Bishop(8, 3, 0);
+        Bishop bishop = new Bishop(8, 3, Colour.WHITE);
         this.map[8][3].addPiece(bishop);
         this.whitePeaces_arrayList.add(bishop);
-        bishop = new Bishop(8, 6, 0);
+        bishop = new Bishop(8, 6, Colour.WHITE);
         this.map[8][6].addPiece(bishop);
         this.whitePeaces_arrayList.add(bishop);
         //create Rooks
-        Rook rook = new Rook(8, 1, 0);
+        Rook rook = new Rook(8, 1, Colour.WHITE);
         this.map[8][1].addPiece(rook);
         this.whitePeaces_arrayList.add(rook);
-        rook = new Rook(8, 8, 0);
+        rook = new Rook(8, 8, Colour.WHITE);
         this.map[8][8].addPiece(rook);
         this.whitePeaces_arrayList.add(rook);
         //create Knights
-        Knight knight = new Knight(8, 2, 0);
+        Knight knight = new Knight(8, 2, Colour.WHITE);
         this.map[8][2].addPiece(knight);
         this.whitePeaces_arrayList.add(knight);
-        knight = new Knight(8, 7, 0);
+        knight = new Knight(8, 7, Colour.WHITE);
         this.map[8][7].addPiece(knight);
         this.whitePeaces_arrayList.add(knight);
     }
@@ -195,37 +196,37 @@ public class Board implements ActionListener, Serializable {
         this.blackPeaces_arrayList = new ArrayList();
         //create Pawns
         for(int i = 1; i < 9; ++i) {
-            Pawn var2 = new Pawn(2, i, 1);
+            Pawn var2 = new Pawn(2, i, Colour.BLACK);
             this.map[2][i].addPiece(var2);
             this.blackPeaces_arrayList.add(var2);
         }
         //create Pieces.Queen
-        Queen queen = new Queen(1, 4, 1);
+        Queen queen = new Queen(1, 4, Colour.BLACK);
         this.map[1][4].addPiece(queen);
         this.blackPeaces_arrayList.add(queen);
         //create Pieces.King
-        this.blackKing = new King(1, 5, 1);
+        this.blackKing = new King(1, 5, Colour.BLACK);
         this.map[1][5].addPiece(this.blackKing);
         this.blackPeaces_arrayList.add(this.blackKing);
         //create Bishops
-        Bishop bishop = new Bishop(1, 3, 1);
+        Bishop bishop = new Bishop(1, 3, Colour.BLACK);
         this.map[1][3].addPiece(bishop);
         this.blackPeaces_arrayList.add(bishop);
-        bishop = new Bishop(1, 6, 1);
+        bishop = new Bishop(1, 6, Colour.BLACK);
         this.map[1][6].addPiece(bishop);
         this.blackPeaces_arrayList.add(bishop);
         //create Kings
-        Rook rook = new Rook(1, 1, 1);
+        Rook rook = new Rook(1, 1, Colour.BLACK);
         this.map[1][1].addPiece(rook);
         this.blackPeaces_arrayList.add(rook);
-        rook = new Rook(1, 8, 1);
+        rook = new Rook(1, 8, Colour.BLACK);
         this.map[1][8].addPiece(rook);
         this.blackPeaces_arrayList.add(rook);
         //create Knights
-        Knight knight = new Knight(1, 2, 1);
+        Knight knight = new Knight(1, 2, Colour.BLACK);
         this.map[1][2].addPiece(knight);
         this.blackPeaces_arrayList.add(knight);
-        knight = new Knight(1, 7, 1);
+        knight = new Knight(1, 7, Colour.BLACK);
         this.map[1][7].addPiece(knight);
         this.blackPeaces_arrayList.add(knight);
     }
@@ -387,14 +388,18 @@ public class Board implements ActionListener, Serializable {
     public void actionPerformed(ActionEvent actionEvent) {
         Cell cell = (Cell)actionEvent.getSource();
         Piece piece = cell.getPiece();
-
+        Colour test ;
+        if(turn == 0){
+            test = Colour.WHITE;
+        }else
+            test = Colour.BLACK;
         //wenn figur ausgewählt ist oder die angeklickte Cell markiert ist
         if (piece != null || this.highlightedCells.contains(cell)) {
             //führe Zug aus
             if (this.highlightedCells.contains(cell)) {
                 this.movePiece(cell);
                 //markiere Felder
-            } else if (piece != null && this.turn == cell.getColour()) {
+            } else if (piece != null && test == cell.getColour()) {
                 ArrayList validMovesList = piece.getValidMoves(this.map, cell.x, cell.y, false);
                 this.highlightCells(validMovesList,piece.pieceId);
                 this.selectedCell = cell;
@@ -413,7 +418,7 @@ public class Board implements ActionListener, Serializable {
             int pieceId;
             //if Enemy is White
             //remove the hit Pieces.Piece from the whitePiece_arrayList and from hashtable
-            if (targetCell.getColour() == 0) {
+            if (targetCell.getColour() == Colour.WHITE) {
                 pieceId = (Integer)this.whitePiece.get(targetCell.getPieceId());
                 this.whitePiece.put(targetCell.getPieceId(), pieceId - 1);
 
@@ -465,7 +470,7 @@ public class Board implements ActionListener, Serializable {
         if (!targetCell.isEmpty() && targetCell.getPieceId().equals("PAWN") && (targetCell.x == 1 || targetCell.x == 8)) {
             Pawn promotedPawn = (Pawn)targetCell.getPiece();
             promotedPawn.promotePawn(this.boardFrame, this.map);
-            if (promotedPawn.getColour() == 0) {
+            if (promotedPawn.getColour() == Colour.WHITE) {
                 for(int i = 0; i < this.whitePeaces_arrayList.size(); ++i) {
                     if (promotedPawn.x == ((Piece)this.whitePeaces_arrayList.get(i)).getX() && promotedPawn.y == ((Piece)this.whitePeaces_arrayList.get(i)).getY()) {
                         this.whitePeaces_arrayList.remove(i);
@@ -481,7 +486,7 @@ public class Board implements ActionListener, Serializable {
                 }
             }
 
-            if (this.map[promotedPawn.getX()][promotedPawn.getY()].getColour() == 0) {
+            if (this.map[promotedPawn.getX()][promotedPawn.getY()].getColour() == Colour.WHITE) {
                 this.whitePeaces_arrayList.add(this.map[promotedPawn.getX()][promotedPawn.getY()].getPiece());
             } else {
                 this.blackPeaces_arrayList.add(this.map[promotedPawn.getX()][promotedPawn.getY()].getPiece());
@@ -489,7 +494,11 @@ public class Board implements ActionListener, Serializable {
         }
 
         //check for check
-        this.checkFlag = Check.check(this.map, this.turn);
+        if(turn%2 == 0)
+        this.checkFlag = Check.check(this.map, Colour.WHITE);
+        else
+            this.checkFlag = Check.check(this.map, Colour.BLACK);
+
         if (this.checkFlag) {
             this.checkLabel.setText("     Check!!    ");
         } else {

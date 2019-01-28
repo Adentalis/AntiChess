@@ -1,6 +1,7 @@
 package logic;
 
 import Pieces.Piece;
+import helper.Colour;
 
 import java.io.Serializable;
 import javax.swing.Icon;
@@ -47,8 +48,8 @@ public class Cell extends JButton implements Serializable {
         return this.piece;
     }
 
-    public int getColour() {
-        return this.piece != null ? this.piece.getColour() : -1;
+    public Colour getColour() {
+        return this.piece != null ? this.piece.getColour() : Colour.EMPTY;
     }
 
     public String getPieceId() {

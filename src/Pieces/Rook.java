@@ -1,6 +1,5 @@
 package Pieces;
-
-
+import helper.Colour;
 import logic.Cell;
 
 import javax.swing.ImageIcon;
@@ -9,10 +8,10 @@ import java.util.ArrayList;
 public class Rook extends Piece {
 
     //fertig
-    public Rook(int x, int y, int colour) {
+    public Rook(int x, int y, Colour colour) {
         super(x, y, colour);
         ImageIcon icon;
-        if (colour == 0) {
+        if (colour == Colour.WHITE) {
             icon = new ImageIcon("src/images/White_Rook.png");
         } else {
             icon = new ImageIcon("src/images/Black_Rook.png");

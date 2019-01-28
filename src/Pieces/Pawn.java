@@ -1,5 +1,6 @@
 package Pieces;
 
+import helper.Colour;
 import logic.Cell;
 
 import java.awt.Button;
@@ -27,10 +28,10 @@ public class Pawn extends Piece implements Serializable, ActionListener {
     private Cell[][] squares;
 
     //fertig
-    public Pawn(int x, int y, int colour) {
+    public Pawn(int x, int y, Colour colour) {
         super(x, y, colour);
         ImageIcon icon;
-        if (colour == 0) {
+        if (colour == Colour.WHITE) {
             icon = new ImageIcon("src/images/White_Pawn.png");
         } else {
             icon = new ImageIcon("src/images/Black_Pawn.png");
@@ -46,16 +47,16 @@ public class Pawn extends Piece implements Serializable, ActionListener {
 
         //if not moved yet, 2 steps forward are possible
         if (this.alreadyMoved == 0) {
-            if (this.colour == 0 && map[x - 2][y].isEmpty() && map[x - 1][y].isEmpty()) {
+            if (this.colour == Colour.WHITE && map[x - 2][y].isEmpty() && map[x - 1][y].isEmpty()) {
                 this.pseudoValidMoves.add(map[x - 2][y]);
             }
 
-            if (this.colour == 1 && map[x + 2][y].isEmpty() && map[x + 1][y].isEmpty()) {
+            if (this.colour == Colour.BLACK && map[x + 2][y].isEmpty() && map[x + 1][y].isEmpty()) {
                 this.pseudoValidMoves.add(map[x + 2][y]);
             }
         }
         //White
-        if (this.colour == 0) {
+        if (this.colour == Colour.WHITE) {
             //one step forward
             if (this.isValid(x - 1, y) && map[x - 1][y].isEmpty()) {
                 this.pseudoValidMoves.add(map[x - 1][y]);
@@ -132,7 +133,7 @@ public class Pawn extends Piece implements Serializable, ActionListener {
         Queen var5;
         Bishop var6;
         Rook var7;
-        if (this.colour == 0) {
+        if (this.colour == Colour.WHITE) {
             var2 = this.newPieceId;
             var3 = -1;
             switch(var2.hashCode()) {
@@ -159,19 +160,19 @@ public class Pawn extends Piece implements Serializable, ActionListener {
 
             switch(var3) {
                 case 0:
-                    var4 = new Knight(this.x, this.y, 0);
+                    var4 = new Knight(this.x, this.y, Colour.WHITE);
                     this.squares[this.x][this.y].addPiece(var4);
                     break;
                 case 1:
-                    var5 = new Queen(this.x, this.y, 0);
+                    var5 = new Queen(this.x, this.y, Colour.WHITE);
                     this.squares[this.x][this.y].addPiece(var5);
                     break;
                 case 2:
-                    var6 = new Bishop(this.x, this.y, 0);
+                    var6 = new Bishop(this.x, this.y, Colour.WHITE);
                     this.squares[this.x][this.y].addPiece(var6);
                     break;
                 case 3:
-                    var7 = new Rook(this.x, this.y, 0);
+                    var7 = new Rook(this.x, this.y, Colour.WHITE);
                     this.squares[this.x][this.y].addPiece(var7);
             }
         } else {
@@ -201,19 +202,19 @@ public class Pawn extends Piece implements Serializable, ActionListener {
 
             switch(var3) {
                 case 0:
-                    var4 = new Knight(this.x, this.y, 1);
+                    var4 = new Knight(this.x, this.y, Colour.BLACK);
                     this.squares[this.x][this.y].addPiece(var4);
                     break;
                 case 1:
-                    var5 = new Queen(this.x, this.y, 1);
+                    var5 = new Queen(this.x, this.y, Colour.BLACK);
                     this.squares[this.x][this.y].addPiece(var5);
                     break;
                 case 2:
-                    var6 = new Bishop(this.x, this.y, 1);
+                    var6 = new Bishop(this.x, this.y, Colour.BLACK);
                     this.squares[this.x][this.y].addPiece(var6);
                     break;
                 case 3:
-                    var7 = new Rook(this.x, this.y, 1);
+                    var7 = new Rook(this.x, this.y, Colour.BLACK);
                     this.squares[this.x][this.y].addPiece(var7);
             }
         }

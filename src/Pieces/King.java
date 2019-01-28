@@ -1,5 +1,6 @@
 package Pieces;
 
+import helper.Colour;
 import logic.Cell;
 
 import java.io.Serializable;
@@ -9,10 +10,10 @@ import javax.swing.ImageIcon;
 public class King extends Piece implements Serializable {
 
     //fertig
-    public King(int x, int y, int colour) {
+    public King(int x, int y, Colour colour) {
         super(x, y, colour);
         ImageIcon icon;
-        if (colour == 0) {
+        if (colour == Colour.WHITE) {
             icon = new ImageIcon("src/images/White_King.png");
         } else {
             icon = new ImageIcon("src/images/Black_King.png");
