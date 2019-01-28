@@ -20,25 +20,26 @@ public class Rook extends Piece {
     public ArrayList<Cell> getValidMoves(Cell[][] map, int x, int y, boolean var4) {
         this.validMoves.clear();
         this.pseudoValidMoves.clear();
-        int[] var5 = new int[]{1, -1, 0, 0};
-        int[] var6 = new int[]{0, 0, 1, -1};
-        int var7 = x;
-        int var8 = y;
+        int[] moveListX = new int[]{1, -1, 0, 0};
+        int[] moveListY = new int[]{0, 0, 1, -1};
+        int tempX = x;
+        int tempY = y;
 
-        for(int var9 = 0; var9 < 4; ++var9) {
-            var7 += var5[var9];
+        for(int i = 0; i < 4; ++i) {
+            tempX += moveListX[i];
 
-            for(var8 += var6[var9]; this.isValid(var7, var8) && map[var7][var8].isEmpty(); var8 += var6[var9]) {
-                this.pseudoValidMoves.add(map[var7][var8]);
-                var7 += var5[var9];
+            for(tempY += moveListY[i]; this.isValid(tempX, tempY) && map[tempX][tempY].isEmpty(); tempY += moveListY[i]) {
+                this.pseudoValidMoves.add(map[tempX][tempY]);
+                tempX += moveListX[i];
             }
 
-            if (this.isValid(var7, var8) && map[var7][var8].getColour() != this.colour) {
-                this.pseudoValidMoves.add(map[var7][var8]);
+            //if enemy Piece it can be attacked as well
+            if (this.isValid(tempX, tempY) && map[tempX][tempY].getColour() != this.colour) {
+                this.pseudoValidMoves.add(map[tempX][tempY]);
             }
 
-            var7 = x;
-            var8 = y;
+            tempX = x;
+            tempY = y;
         }
 
         if (var4) {

@@ -84,7 +84,7 @@ class Board implements ActionListener, Serializable {
         this.initialisePlayer();
         this.map = new Cell[9][9];
         this.initialiseBoard();
-        this.initialiseTimePanel();
+        this.initialiseTurnAndCheckLabels();
 
         this.chance = 0;
         this.checkFlag = false;
@@ -241,6 +241,7 @@ class Board implements ActionListener, Serializable {
         this.whitePiece.put("BISHOP", 2);
         this.blackPiece.put("BISHOP", 2);
     }
+
     //fertig
     public void initialiseMenuBar() {
         this.jMenu = new JMenu("File");
@@ -275,14 +276,13 @@ class Board implements ActionListener, Serializable {
         this.player2Panel.add(this.player2_JLabel);
     }
 
-    public void initialiseTimePanel() {
+    public void initialiseTurnAndCheckLabels() {
 
         this.turnLabel = new JLabel(" Player 2's Turn ");
         this.turnLabel.setFont(new Font("Serif", 0, 15));
         this.checkLabel = new JLabel("         ");
         this.checkLabel.setFont(new Font("Serif", 0, 15));
         this.timePanel.add(this.turnLabel);
-
         this.timePanel.add(this.checkLabel);
     }
 
@@ -386,8 +386,8 @@ class Board implements ActionListener, Serializable {
     }
 
 
-    public Cell getSquare(int var1, int var2) {
-        return this.map[var1][var2];
+    public Cell getSquare(int x, int y) {
+        return this.map[x][y];
     }
 
 
@@ -510,7 +510,10 @@ class Board implements ActionListener, Serializable {
 
     }
 
-    private void highlightCells(ArrayList<Cell> var1) {
+    private void highlightCells(ArrayList<Cell> validMovesList) {
+        for(Cell c : validMovesList){
+            System.out.println(c.toString());
+        }
         LineBorder var2 = new LineBorder(Color.BLACK, 5);
         LineBorder var3 = new LineBorder(Color.BLACK, 0);
         int i;
@@ -524,8 +527,8 @@ class Board implements ActionListener, Serializable {
             this.highlightedCells.clear();
         }
 
-        for(i = 0; i < var1.size(); ++i) {
-            var5 = (Cell)var1.get(i);
+        for(i = 0; i < validMovesList.size(); ++i) {
+            var5 = (Cell)validMovesList.get(i);
             var5.setBorder(var2);
             this.highlightedCells.add(var5);
         }

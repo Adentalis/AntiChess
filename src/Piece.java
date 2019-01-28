@@ -43,9 +43,9 @@ public abstract class Piece implements Serializable {
     public String getPieceId() {
         return this.pieceId;
     }
-
-    public boolean isValid(int var1, int var2) {
-        return var1 >= 1 && var1 <= 8 && var2 >= 1 && var2 <= 8;
+    //just checks if x and y are in 1-8 range
+    public boolean isValid(int x, int y) {
+        return x >= 1 && x <= 8 && y >= 1 && y <= 8;
     }
 
     public int getX() {
@@ -58,25 +58,25 @@ public abstract class Piece implements Serializable {
 
     public abstract void move(int var1, int var2);
 
-    public ArrayList<Cell> checkFreeMoves(Cell[][] var1, int var2, int var3) {
-        int var5 = this.pseudoValidMoves.size();
+    public ArrayList<Cell> checkFreeMoves(Cell[][] map, int x, int y) {
 
-        for(int var4 = 0; var4 < var5; ++var4) {
-            this.tempCell = (Cell)this.pseudoValidMoves.get(var4);
-            var1[var2][var3].pseudoRemovePiece();
+
+        for(int i = 0; i < this.pseudoValidMoves.size(); ++i) {
+            this.tempCell = (Cell)this.pseudoValidMoves.get(i);
+            map[x][y].pseudoRemovePiece();
             this.tempPiece = this.tempCell.getPiece();
             this.tempCell.pseudoAddPiece(this);
             this.x = this.tempCell.x;
             this.y = this.tempCell.y;
-            if (!Check.check(var1, this.colour)) {
+            if (!Check.check(map, this.colour)) {
                 this.validMoves.add(this.tempCell);
             }
 
             this.tempCell.pseudoRemovePiece();
             this.tempCell.pseudoAddPiece(this.tempPiece);
-            var1[var2][var3].pseudoAddPiece(this);
-            this.x = var2;
-            this.y = var3;
+            map[x][y].pseudoAddPiece(this);
+            this.x = x;
+            this.y = y;
         }
 
         return this.validMoves;

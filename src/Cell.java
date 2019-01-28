@@ -56,5 +56,9 @@ public class Cell extends JButton implements Serializable {
     public boolean isEmpty() {
         return this.piece == null;
     }
+
+    public String toString(){
+        return "Cell x:"+this.x+"  y:"+this.y;
+    }
 }
 
