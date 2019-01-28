@@ -540,32 +540,34 @@ class Board implements ActionListener, Serializable {
 
 
     public boolean checkMate() {
-        boolean var1 = true;
-        int var2;
-        ArrayList var3;
-        Piece var4;
+        boolean checkmate = true;
+        ArrayList arrayList;
+        Piece piece;
+
         if (this.turn == 0) {
-            for(var2 = 0; var2 < this.whitePeaces_arrayList.size(); ++var2) {
-                var4 = (Piece)this.whitePeaces_arrayList.get(var2);
-                var3 = var4.getValidMoves(this.map, var4.getX(), var4.getY(), false);
-                if (!var3.isEmpty()) {
-                    var1 = false;
+            //try to get for every piece all valid moves
+            //if no move possible, it means there is no move to come out of the check = checkmate
+            for(int i = 0; i < this.whitePeaces_arrayList.size(); ++i) {
+                piece = (Piece)this.whitePeaces_arrayList.get(i);
+                arrayList = piece.getValidMoves(this.map, piece.getX(), piece.getY(), false);
+                if (!arrayList.isEmpty()) {
+                    checkmate = false;
                     break;
                 }
             }
         } else {
-            for(var2 = 0; var2 < this.blackPeaces_arrayList.size(); ++var2) {
-                var4 = (Piece)this.blackPeaces_arrayList.get(var2);
-                var3 = var4.getValidMoves(this.map, var4.getX(), var4.getY(), false);
-                if (!var3.isEmpty()) {
-                    var1 = false;
+            for(int i = 0; i < this.blackPeaces_arrayList.size(); ++i) {
+                piece = (Piece)this.blackPeaces_arrayList.get(i);
+                arrayList = piece.getValidMoves(this.map, piece.getX(), piece.getY(), false);
+                if (!arrayList.isEmpty()) {
+                    checkmate = false;
                     break;
                 }
             }
         }
 
-        this.checkMateFlag = var1;
-        return var1;
+        this.checkMateFlag = checkmate;
+        return checkmate;
     }
 
     public void endTheGame(String var1) {
