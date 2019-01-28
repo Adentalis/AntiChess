@@ -60,7 +60,6 @@ public abstract class Piece implements Serializable {
 
     public ArrayList<Cell> checkFreeMoves(Cell[][] map, int x, int y) {
 
-
         for(int i = 0; i < this.pseudoValidMoves.size(); ++i) {
             this.tempCell = (Cell)this.pseudoValidMoves.get(i);
             map[x][y].pseudoRemovePiece();

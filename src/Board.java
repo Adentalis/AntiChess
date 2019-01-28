@@ -382,9 +382,13 @@ class Board implements ActionListener, Serializable {
     public void actionPerformed(ActionEvent actionEvent) {
         Cell cell = (Cell)actionEvent.getSource();
         Piece piece = cell.getPiece();
+
+        //wenn figur ausgewählt ist oder die angeklickte Cell markiert ist
         if (piece != null || this.highlightedCells.contains(cell)) {
+            //führe Zug aus
             if (this.highlightedCells.contains(cell)) {
                 this.movePiece(cell);
+                //markiere Felder
             } else if (piece != null && this.chance == cell.getColour()) {
                 ArrayList validMovesList = piece.getValidMoves(this.map, cell.x, cell.y, false);
                 this.highlightCells(validMovesList,piece.pieceId);
@@ -393,37 +397,37 @@ class Board implements ActionListener, Serializable {
 
         }
     }
+    //targetCell = the Cell the Piece wants to move
+    public void movePiece(Cell targetCell) {
+        Piece piece = this.selectedCell.getPiece();
+        piece.setXY(targetCell.x, targetCell.y);
 
-    public void movePiece(Cell var1) {
-        Piece var2 = this.selectedCell.getPiece();
-        var2.setXY(var1.x, var1.y);
-        int var4;
-        if (!var1.isEmpty()) {
+        if (!targetCell.isEmpty()) {
             int var3;
-            if (var1.getColour() == 0) {
-                var3 = (Integer)this.whitePiece.get(var1.getPieceId());
-                this.whitePiece.put(var1.getPieceId(), var3 - 1);
+            if (targetCell.getColour() == 0) {
+                var3 = (Integer)this.whitePiece.get(targetCell.getPieceId());
+                this.whitePiece.put(targetCell.getPieceId(), var3 - 1);
 
-                for(var4 = 0; var4 < this.whitePeaces_arrayList.size(); ++var4) {
-                    if (var1.x == ((Piece)this.whitePeaces_arrayList.get(var4)).getX() && var1.y == ((Piece)this.whitePeaces_arrayList.get(var4)).getY()) {
-                        this.whitePeaces_arrayList.remove(var4);
+                for(int i = 0; i < this.whitePeaces_arrayList.size(); ++i) {
+                    if (targetCell.x == ((Piece)this.whitePeaces_arrayList.get(i)).getX() && targetCell.y == ((Piece)this.whitePeaces_arrayList.get(i)).getY()) {
+                        this.whitePeaces_arrayList.remove(i);
                         break;
                     }
                 }
             } else {
-                var3 = (Integer)this.blackPiece.get(var1.getPieceId());
-                this.blackPiece.put(var1.getPieceId(), var3 - 1);
+                var3 = (Integer)this.blackPiece.get(targetCell.getPieceId());
+                this.blackPiece.put(targetCell.getPieceId(), var3 - 1);
 
-                for(var4 = 0; var4 < this.blackPeaces_arrayList.size(); ++var4) {
-                    if (var1.x == ((Piece)this.blackPeaces_arrayList.get(var4)).getX() && var1.y == ((Piece)this.blackPeaces_arrayList.get(var4)).getY()) {
-                        this.blackPeaces_arrayList.remove(var4);
+                for(int i = 0; i < this.blackPeaces_arrayList.size(); ++i) {
+                    if (targetCell.x == ((Piece)this.blackPeaces_arrayList.get(i)).getX() && targetCell.y == ((Piece)this.blackPeaces_arrayList.get(i)).getY()) {
+                        this.blackPeaces_arrayList.remove(i);
                         break;
                     }
                 }
             }
         }
 
-        var1.addPiece(var2);
+        targetCell.addPiece(piece);
 
 
         this.chance = (this.chance + 1) % 2;
@@ -437,8 +441,8 @@ class Board implements ActionListener, Serializable {
         if (!this.highlightedCells.isEmpty()) {
             LineBorder var6 = new LineBorder(Color.BLACK, 0);
 
-            for(var4 = 0; var4 < this.highlightedCells.size(); ++var4) {
-                Cell var5 = (Cell)this.highlightedCells.get(var4);
+            for(int i = 0; i < this.highlightedCells.size(); ++i) {
+                Cell var5 = (Cell)this.highlightedCells.get(i);
                 var5.setBorder(var6);
             }
 
@@ -446,20 +450,20 @@ class Board implements ActionListener, Serializable {
         }
 
         this.selectedCell = null;
-        if (!var1.isEmpty() && var1.getPieceId().equals("PAWN") && (var1.x == 1 || var1.x == 8)) {
-            Pawn var7 = (Pawn)var1.getPiece();
+        if (!targetCell.isEmpty() && targetCell.getPieceId().equals("PAWN") && (targetCell.x == 1 || targetCell.x == 8)) {
+            Pawn var7 = (Pawn)targetCell.getPiece();
             var7.promotePawn(this.boardFrame, this.map);
             if (var7.getColour() == 0) {
-                for(var4 = 0; var4 < this.whitePeaces_arrayList.size(); ++var4) {
-                    if (var7.x == ((Piece)this.whitePeaces_arrayList.get(var4)).getX() && var7.y == ((Piece)this.whitePeaces_arrayList.get(var4)).getY()) {
-                        this.whitePeaces_arrayList.remove(var4);
+                for(int i = 0; i < this.whitePeaces_arrayList.size(); ++i) {
+                    if (var7.x == ((Piece)this.whitePeaces_arrayList.get(i)).getX() && var7.y == ((Piece)this.whitePeaces_arrayList.get(i)).getY()) {
+                        this.whitePeaces_arrayList.remove(i);
                         break;
                     }
                 }
             } else {
-                for(var4 = 0; var4 < this.blackPeaces_arrayList.size(); ++var4) {
-                    if (var7.x == ((Piece)this.blackPeaces_arrayList.get(var4)).getX() && var7.y == ((Piece)this.blackPeaces_arrayList.get(var4)).getY()) {
-                        this.blackPeaces_arrayList.remove(var4);
+                for(int i = 0; i < this.blackPeaces_arrayList.size(); ++i) {
+                    if (var7.x == ((Piece)this.blackPeaces_arrayList.get(i)).getX() && var7.y == ((Piece)this.blackPeaces_arrayList.get(i)).getY()) {
+                        this.blackPeaces_arrayList.remove(i);
                         break;
                     }
                 }
