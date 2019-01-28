@@ -1,6 +1,7 @@
 package logic;
 
 import Pieces.*;
+import helper.Check;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -29,7 +30,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-class Board implements ActionListener, Serializable {
+public class Board implements ActionListener, Serializable {
     private JFrame boardFrame = new JFrame("AntiCHESS");
     private JPanel boardPanel;
     private JPanel player1Panel;

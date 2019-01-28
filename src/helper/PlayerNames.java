@@ -1,4 +1,6 @@
-package logic;
+package helper;
+
+import logic.Board;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

@@ -1,7 +1,7 @@
 package Pieces;
 
 import logic.Cell;
-import logic.Check;
+import helper.Check;
 
 import java.io.Serializable;
 import java.util.ArrayList;

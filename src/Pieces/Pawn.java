@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
+
 public class Pawn extends Piece implements Serializable, ActionListener {
     private Dialog promoterFrame;
     private Label headerLabel;

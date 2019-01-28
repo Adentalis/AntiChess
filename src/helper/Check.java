@@ -1,7 +1,9 @@
-package logic;
+package helper;
 
 import Pieces.King;
 import Pieces.Piece;
+import logic.Board;
+import logic.Cell;
 
 public class Check {
     private static Board board;

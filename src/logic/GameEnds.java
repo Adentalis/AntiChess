@@ -1,5 +1,7 @@
 package logic;
 
+import helper.PlayerNames;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
