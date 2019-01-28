@@ -129,7 +129,7 @@ class Board implements ActionListener, Serializable {
                 } else {
                     this.map[i][k].setBackground(this.whiteCellColor);
                 }
-                //each Cell ist now in ActionListener
+                //each Cell is now in ActionListener
                 this.map[i][k].addActionListener(this);
                 this.boardPanel.add(this.map[i][k]);
             }
@@ -565,6 +565,7 @@ class Board implements ActionListener, Serializable {
     public void endTheGame(String var1) {
         this.gameEnder.endGame(var1);
     }
+
     //This Method can be used to change the Color of the Cells ingame
     //removed
     void setCellColor(Color var1, Color var2) {

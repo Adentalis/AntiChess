@@ -34,7 +34,7 @@ public class Pawn extends Piece implements Serializable, ActionListener {
         this.pieceIcon = icon;
         this.pieceId = "PAWN";
     }
-
+    //TODO - schlagen en pasoe
     public ArrayList<Cell> getValidMoves(Cell[][] map, int x, int y, boolean var4) {
         this.validMoves.clear();
         this.pseudoValidMoves.clear();
@@ -76,10 +76,6 @@ public class Pawn extends Piece implements Serializable, ActionListener {
             if (this.isValid(x + 1, y + 1) && !map[x + 1][y + 1].isEmpty() && map[x + 1][y + 1].getColour() != this.colour) {
                 this.pseudoValidMoves.add(map[x + 1][y + 1]);
             }
-        }
-
-        for(int var5 = 0; var5 < this.pseudoValidMoves.size(); ++var5) {
-            ;
         }
 
         if (var4) {
