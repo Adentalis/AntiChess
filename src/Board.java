@@ -286,18 +286,6 @@ class Board implements ActionListener, Serializable {
         this.timePanel.add(this.checkLabel);
     }
 
-    public void closeWindow() {
-        this.boardFrame.setDefaultCloseOperation(0);
-        this.boardFrame.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent var1) {
-                int var2 = JOptionPane.showConfirmDialog((Component)null, "Are you sure you want to exit?");
-                if (var2 == 0) {
-                    System.exit(0);
-                }
-
-            }
-        });
-    }
     //fertig
     public void boardReset() {
         for(int i = 1; i < 9; ++i) {
@@ -398,8 +386,8 @@ class Board implements ActionListener, Serializable {
             if (this.highlightedCells.contains(cell)) {
                 this.movePiece(cell);
             } else if (piece != null && this.chance == cell.getColour()) {
-                ArrayList var4 = piece.getValidMoves(this.map, cell.x, cell.y, false);
-                this.highlightCells(var4);
+                ArrayList validMovesList = piece.getValidMoves(this.map, cell.x, cell.y, false);
+                this.highlightCells(validMovesList,piece.pieceId);
                 this.selectedCell = cell;
             }
 
@@ -509,28 +497,32 @@ class Board implements ActionListener, Serializable {
         }
 
     }
-
-    private void highlightCells(ArrayList<Cell> validMovesList) {
+    //fertig
+    private void highlightCells(ArrayList<Cell> validMovesList, String pieceId) {
+        //TEST start
+        System.out.println(pieceId);
         for(Cell c : validMovesList){
             System.out.println(c.toString());
         }
-        LineBorder var2 = new LineBorder(Color.BLACK, 5);
+        //TEST end
+
+        LineBorder var2 = new LineBorder(Color.GREEN, 3);
         LineBorder var3 = new LineBorder(Color.BLACK, 0);
-        int i;
-        Cell var5;
+
+        Cell tempCell;
         if (!this.highlightedCells.isEmpty()) {
-            for(i = 0; i < this.highlightedCells.size(); ++i) {
-                var5 = (Cell)this.highlightedCells.get(i);
-                var5.setBorder(var3);
+            for(int i = 0; i < this.highlightedCells.size(); ++i) {
+                tempCell = (Cell)this.highlightedCells.get(i);
+                tempCell.setBorder(var3);
             }
 
             this.highlightedCells.clear();
         }
 
-        for(i = 0; i < validMovesList.size(); ++i) {
-            var5 = (Cell)validMovesList.get(i);
-            var5.setBorder(var2);
-            this.highlightedCells.add(var5);
+        for(int i = 0; i < validMovesList.size(); ++i) {
+            tempCell = (Cell)validMovesList.get(i);
+            tempCell.setBorder(var2);
+            this.highlightedCells.add(tempCell);
         }
 
     }
@@ -567,6 +559,20 @@ class Board implements ActionListener, Serializable {
 
     public void endTheGame(String var1) {
         this.gameEnder.endGame(var1);
+    }
+
+    //fertig
+    public void closeWindow() {
+        this.boardFrame.setDefaultCloseOperation(0);
+        this.boardFrame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent var1) {
+                int var2 = JOptionPane.showConfirmDialog((Component)null, "Are you sure you want to exit?");
+                if (var2 == 0) {
+                    System.exit(0);
+                }
+
+            }
+        });
     }
 
     //This Method can be used to change the Color of the Cells ingame

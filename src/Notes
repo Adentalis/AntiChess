@@ -1,0 +1,14 @@
+Methoden
+Piece
+- boolean isValid(x,y) --> überprüft nur ob x und y in 1-8 range sind
+- ArrayList<Cell> checkFreeMoves(Cell[][] map, int x, int y) --> ?
+
+Pawn/King/Queen/Rook/Bishop/Knight
+- ArrayList<Cell> getValidMoves(Cell[][] map, int x, int y, boolean var4)
+ --> erstellt eine ArrayList mit Cells wo diese Figur hinkann
+
+ Board
+- void highlightCells(ArrayList<Cell> validMovesList, String pieceId)
+  --> färbt nur alle Cells wo die Figur hinkan grün
+- void movePiece(Cell var1)
+ -->
