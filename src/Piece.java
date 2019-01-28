@@ -9,7 +9,7 @@ public abstract class Piece implements Serializable {
     public int y;
     public int colour;
     public String pieceId;
-    public int flag = 0;
+    public int alreadyMoved = 0; //0 = piece not moved yet
     public Piece pieceObj;
     public Piece tempPiece;
     private Cell tempCell;
@@ -20,7 +20,7 @@ public abstract class Piece implements Serializable {
         return this.pieceIcon;
     }
 
-    public abstract ArrayList<Cell> getValidMoves(Cell[][] var1, int var2, int var3, boolean var4);
+    public abstract ArrayList<Cell> getValidMoves(Cell[][] map, int x, int y, boolean var4);
 
     //fertig
     public Piece(int var1, int var2, int colour) {
@@ -29,11 +29,11 @@ public abstract class Piece implements Serializable {
         this.colour = colour;
         this.pieceObj = this;
     }
-    //flag?
-    public void setXY(int var1, int var2) {
-        this.flag = 1;
-        this.x = var1;
-        this.y = var2;
+    //fertig
+    public void setXY(int x, int y) {
+        this.alreadyMoved = 1;
+        this.x = x;
+        this.y = y;
     }
 
     public int getColour() {

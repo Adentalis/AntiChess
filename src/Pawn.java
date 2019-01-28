@@ -35,42 +35,46 @@ public class Pawn extends Piece implements Serializable, ActionListener {
         this.pieceId = "PAWN";
     }
 
-    public ArrayList<Cell> getValidMoves(Cell[][] var1, int var2, int var3, boolean var4) {
+    public ArrayList<Cell> getValidMoves(Cell[][] map, int x, int y, boolean var4) {
         this.validMoves.clear();
         this.pseudoValidMoves.clear();
-        if (this.flag == 0) {
-            if (this.colour == 0 && var1[var2 - 2][var3].isEmpty() && var1[var2 - 1][var3].isEmpty()) {
-                this.pseudoValidMoves.add(var1[var2 - 2][var3]);
+
+        //if not moved yet, 2 steps forward are possible
+        if (this.alreadyMoved == 0) {
+            if (this.colour == 0 && map[x - 2][y].isEmpty() && map[x - 1][y].isEmpty()) {
+                this.pseudoValidMoves.add(map[x - 2][y]);
             }
 
-            if (this.colour == 1 && var1[var2 + 2][var3].isEmpty() && var1[var2 + 1][var3].isEmpty()) {
-                this.pseudoValidMoves.add(var1[var2 + 2][var3]);
+            if (this.colour == 1 && map[x + 2][y].isEmpty() && map[x + 1][y].isEmpty()) {
+                this.pseudoValidMoves.add(map[x + 2][y]);
             }
         }
-
+        //White
         if (this.colour == 0) {
-            if (this.isValid(var2 - 1, var3) && var1[var2 - 1][var3].isEmpty()) {
-                this.pseudoValidMoves.add(var1[var2 - 1][var3]);
+            //one step forward
+            if (this.isValid(x - 1, y) && map[x - 1][y].isEmpty()) {
+                this.pseudoValidMoves.add(map[x - 1][y]);
             }
-
-            if (this.isValid(var2 - 1, var3 + 1) && !var1[var2 - 1][var3 + 1].isEmpty() && var1[var2 - 1][var3 + 1].getColour() != this.colour) {
-                this.pseudoValidMoves.add(var1[var2 - 1][var3 + 1]);
+            //check if one step forward right is a enemy piece to attack
+            if (this.isValid(x - 1, y + 1) && !map[x - 1][y + 1].isEmpty() && map[x - 1][y + 1].getColour() != this.colour) {
+                this.pseudoValidMoves.add(map[x - 1][y + 1]);
             }
-
-            if (this.isValid(var2 - 1, var3 - 1) && !var1[var2 - 1][var3 - 1].isEmpty() && var1[var2 - 1][var3 - 1].getColour() != this.colour) {
-                this.pseudoValidMoves.add(var1[var2 - 1][var3 - 1]);
+            //check the same for left one
+            if (this.isValid(x - 1, y - 1) && !map[x - 1][y - 1].isEmpty() && map[x - 1][y - 1].getColour() != this.colour) {
+                this.pseudoValidMoves.add(map[x - 1][y - 1]);
             }
         } else {
-            if (this.isValid(var2 + 1, var3) && var1[var2 + 1][var3].isEmpty()) {
-                this.pseudoValidMoves.add(var1[var2 + 1][var3]);
+            //forward
+            if (this.isValid(x + 1, y) && map[x + 1][y].isEmpty()) {
+                this.pseudoValidMoves.add(map[x + 1][y]);
             }
-
-            if (this.isValid(var2 + 1, var3 - 1) && !var1[var2 + 1][var3 - 1].isEmpty() && var1[var2 + 1][var3 - 1].getColour() != this.colour) {
-                this.pseudoValidMoves.add(var1[var2 + 1][var3 - 1]);
+            //forward left
+            if (this.isValid(x + 1, y - 1) && !map[x + 1][y - 1].isEmpty() && map[x + 1][y - 1].getColour() != this.colour) {
+                this.pseudoValidMoves.add(map[x + 1][y - 1]);
             }
-
-            if (this.isValid(var2 + 1, var3 + 1) && !var1[var2 + 1][var3 + 1].isEmpty() && var1[var2 + 1][var3 + 1].getColour() != this.colour) {
-                this.pseudoValidMoves.add(var1[var2 + 1][var3 + 1]);
+            //forward right
+            if (this.isValid(x + 1, y + 1) && !map[x + 1][y + 1].isEmpty() && map[x + 1][y + 1].getColour() != this.colour) {
+                this.pseudoValidMoves.add(map[x + 1][y + 1]);
             }
         }
 
@@ -81,7 +85,7 @@ public class Pawn extends Piece implements Serializable, ActionListener {
         if (var4) {
             return this.pseudoValidMoves;
         } else {
-            this.validMoves = this.checkFreeMoves(var1, var2, var3);
+            this.validMoves = this.checkFreeMoves(map, x, y);
             return this.validMoves;
         }
     }
