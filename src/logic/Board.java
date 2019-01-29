@@ -407,6 +407,7 @@ public class Board implements ActionListener, Serializable {
 
         }
     }
+
     //targetCell = the Cell the Pieces.Piece wants to move
     //fertig
     public void movePiece(Cell targetCell) {
