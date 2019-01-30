@@ -55,6 +55,7 @@ public class Board implements ActionListener, Serializable {
     private HashMap<String, Integer> whitePiece;
     public ArrayList<Piece> whitePeaces_arrayList;
     public ArrayList<Piece> blackPeaces_arrayList;
+
     private ArrayList<Cell> highlightedCells = new ArrayList();
 
     public King whiteKing;
@@ -186,7 +187,7 @@ public class Board implements ActionListener, Serializable {
 
     //targetCell = the Cell the Pieces.Piece wants to move
     //fertig
-    public void movePiece(Cell targetCell) {
+    public void movePiece(Move move) {
         /*
         -ändere von der Figut die zieht die x,y Werte
         -wenn Figur geschlagen wird entferne diese aus dem Spiel (Hashmap und ArrayList)
@@ -197,7 +198,9 @@ public class Board implements ActionListener, Serializable {
         -nächster Spieler am Zug
          */
 
-        Piece piece = this.selectedCell.getPiece();
+        Cell targetCell = move.target;
+        Piece piece = move.piece;
+
         piece.setXY(targetCell.x, targetCell.y);
 
         checkForEnemyPieceOnTargetCellAndRemoveFromGame(targetCell);
@@ -430,7 +433,7 @@ public class Board implements ActionListener, Serializable {
         if (piece != null || this.highlightedCells.contains(cell)) {
             //führe Zug aus
             if (this.highlightedCells.contains(cell)) {
-                this.movePiece(cell);
+                this.movePiece(new Move(cell,  this.selectedCell.getPiece(),0));
                 //markiere Felder
             } else if (piece != null && colorAtTurn == cell.getColour()) {
                 ArrayList validMovesList = piece.getValidMoves(this.map, cell.x, cell.y, false);
