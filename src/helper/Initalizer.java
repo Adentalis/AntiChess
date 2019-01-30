@@ -3,7 +3,6 @@ package helper;
 import Pieces.*;
 import logic.Cell;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;

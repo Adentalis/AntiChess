@@ -174,7 +174,6 @@ public class Board implements ActionListener, Serializable {
         this.boardFrame.getRootPane().setWindowDecorationStyle(0);
     }
 
-
     public void initialiseTurnAndCheckLabels() {
 
         this.turnLabel = new JLabel(" Player 2's Turn ");
@@ -202,17 +201,6 @@ public class Board implements ActionListener, Serializable {
         //this.initialiseHashMAP();
         this.turn = 0;
     }
-    //fertig
-    void setIcon() {
-        this.boardFrame.setResizable(false);
-
-        try {
-            this.boardFrame.setIconImage(ImageIO.read(new File("src/images/AntiChess_icon.png")));
-        } catch (IOException var2) {
-            var2.printStackTrace();
-        }
-
-    }
 
     public void setVisibleFalse() {
         this.boardFrame.setVisible(false);
@@ -232,18 +220,6 @@ public class Board implements ActionListener, Serializable {
 
     public void setTurnLabel(String name) {
         this.turnLabel.setText("    " + name + "'s turn   ");
-    }
-
-
-    public void setPlayerJLabels(String p1name, String p2name) {
-        this.player1_JLabel.setText(p1name);
-        this.player2_JLabel.setText(p2name);
-        if (this.turn == 0) {
-            this.setTurnLabel(this.player2_JLabel.getText());
-        } else {
-            this.setTurnLabel(this.player1_JLabel.getText());
-        }
-        this.boardFrame.setVisible(true);
     }
 
     public int getTurn() {
@@ -273,11 +249,9 @@ public class Board implements ActionListener, Serializable {
         this.blackPiece = var2;
     }
 
-
     public Cell getSquare(int x, int y) {
         return this.map[x][y];
     }
-
 
     public void actionPerformed(ActionEvent actionEvent) {
         Cell cell = (Cell)actionEvent.getSource();
@@ -348,17 +322,7 @@ public class Board implements ActionListener, Serializable {
         }
 
         //unhighlight all Cells
-        if (!this.highlightedCells.isEmpty()) {
-            LineBorder var6 = new LineBorder(Color.BLACK, 0);
-
-            for(int i = 0; i < this.highlightedCells.size(); ++i) {
-                Cell var5 = (Cell)this.highlightedCells.get(i);
-                var5.setBorder(var6);
-            }
-
-            this.highlightedCells.clear();
-        }
-        this.selectedCell = null;
+        unhighlightAllCells();
 
         //if a Pieces.Pawn reached other side of map (PROMOTE Scenario)
         if (!targetCell.isEmpty() && targetCell.getPieceId().equals("PAWN") && (targetCell.x == 1 || targetCell.x == 8)) {
@@ -417,6 +381,20 @@ public class Board implements ActionListener, Serializable {
         }
     }
 
+    private void unhighlightAllCells() {
+        if (!this.highlightedCells.isEmpty()) {
+            LineBorder var6 = new LineBorder(Color.BLACK, 0);
+
+            for(int i = 0; i < this.highlightedCells.size(); ++i) {
+                Cell var5 = (Cell)this.highlightedCells.get(i);
+                var5.setBorder(var6);
+            }
+
+            this.highlightedCells.clear();
+        }
+        this.selectedCell = null;
+    }
+
     //fertig
     private void highlightCells(ArrayList<Cell> validMovesList, String pieceId) {
         //TEST start
@@ -444,9 +422,30 @@ public class Board implements ActionListener, Serializable {
             this.highlightedCells.add(tempCell);
         }
     }
+    //this is just done once in Main. Can be removed and names send via Constructor
+    public void setPlayerJLabels(String p1name, String p2name) {
+        this.player1_JLabel.setText(p1name);
+        this.player2_JLabel.setText(p2name);
+        if (this.turn == 0) {
+            this.setTurnLabel(this.player2_JLabel.getText());
+        } else {
+            this.setTurnLabel(this.player1_JLabel.getText());
+        }
+        this.boardFrame.setVisible(true);
+    }
 
     //fertig
-    public void closeWindow() {
+    private void setIcon() {
+        this.boardFrame.setResizable(false);
+        try {
+            this.boardFrame.setIconImage(ImageIO.read(new File("src/images/AntiChess_icon.png")));
+        } catch (IOException var2) {
+            var2.printStackTrace();
+        }
+    }
+
+    //fertig
+    private void closeWindow() {
         this.boardFrame.setDefaultCloseOperation(0);
         this.boardFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent var1) {

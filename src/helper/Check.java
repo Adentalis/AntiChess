@@ -134,8 +134,8 @@ public class Check {
         return var7;
     }
 
-    public static void setBoardObject(Board var0) {
-        board = var0;
+    public static void setBoardObject(Board b) {
+        board = b;
     }
 }
 
