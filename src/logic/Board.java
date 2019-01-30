@@ -138,15 +138,12 @@ public class Board implements ActionListener, Serializable {
             }
         }
 
-
         this.initialiseHashMAP();
         Check.setBoardObject(this);
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         this.boardFrame.setLocation(dimension.width / 2 - this.boardFrame.getSize().width / 2, dimension.height / 2 - this.boardFrame.getSize().height / 2);
         this.boardFrame.getRootPane().setWindowDecorationStyle(0);
     }
-
-
 
     //fertig
     public void initialisePlayer() {
@@ -327,7 +324,6 @@ public class Board implements ActionListener, Serializable {
                 this.highlightCells(validMovesList,piece.pieceId);
                 this.selectedCell = cell;
             }
-
         }
     }
 
@@ -431,7 +427,6 @@ public class Board implements ActionListener, Serializable {
             this.checkLabel.setText("               ");
         }
 
-
         if (this.checkFlag && this.checkMateFlag) {
             String winnerName;
             if (this.turn == 0) {
@@ -466,7 +461,6 @@ public class Board implements ActionListener, Serializable {
                 tempCell = (Cell)this.highlightedCells.get(i);
                 tempCell.setBorder(var3);
             }
-
             this.highlightedCells.clear();
         }
 
@@ -475,12 +469,6 @@ public class Board implements ActionListener, Serializable {
             tempCell.setBorder(var2);
             this.highlightedCells.add(tempCell);
         }
-
-    }
-
-
-    public void endTheGame(String var1) {
-        this.gameEnder.endGame(var1);
     }
 
     //fertig
