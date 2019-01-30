@@ -3,6 +3,7 @@ package logic;
 import Pieces.*;
 import helper.Check;
 import helper.Colour;
+import helper.Initalizer;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -139,9 +140,14 @@ public class Board implements ActionListener, Serializable {
                 this.boardPanel.add(this.map[i][k]);
             }
         }
+        Initalizer.initPiecesAndMap(map);
 
-        this.initialiseWhitePieces();
-        this.initialiseBlackPieces();
+        this.map = Initalizer.map;
+        this.whitePeaces_arrayList=Initalizer.whitePieces_arrayList;
+        this.blackPeaces_arrayList=Initalizer.blackPieces_arrayList;
+        this.blackKing= (King)blackPeaces_arrayList.get(0);
+        this.whiteKing= (King)whitePeaces_arrayList.get(0);
+
         this.initialiseHashMAP();
         Check.setBoardObject(this);
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -149,86 +155,7 @@ public class Board implements ActionListener, Serializable {
         this.boardFrame.getRootPane().setWindowDecorationStyle(0);
     }
 
-    //fertig - init all peaces and put them in map and whitePieces_arrayList
-    public void initialiseWhitePieces() {
-        this.whitePeaces_arrayList = new ArrayList();
 
-        //create pawns
-        for(int i = 1; i < 9; ++i) {
-            Pawn pawn = new Pawn(7, i, Colour.WHITE);
-            this.map[7][i].addPiece(pawn);
-            this.whitePeaces_arrayList.add(pawn);
-        }
-        //create Pieces.Queen
-        Queen queen = new Queen(8, 4, Colour.WHITE);
-        this.map[8][4].addPiece(queen);
-        this.whitePeaces_arrayList.add(queen);
-        //create Pieces.King
-        this.whiteKing = new King(8, 5, Colour.WHITE);
-        this.whitePeaces_arrayList.add(this.whiteKing);
-        this.map[8][5].addPiece(this.whiteKing);
-        //create bishops
-        Bishop bishop = new Bishop(8, 3, Colour.WHITE);
-        this.map[8][3].addPiece(bishop);
-        this.whitePeaces_arrayList.add(bishop);
-        bishop = new Bishop(8, 6, Colour.WHITE);
-        this.map[8][6].addPiece(bishop);
-        this.whitePeaces_arrayList.add(bishop);
-        //create Rooks
-        Rook rook = new Rook(8, 1, Colour.WHITE);
-        this.map[8][1].addPiece(rook);
-        this.whitePeaces_arrayList.add(rook);
-        rook = new Rook(8, 8, Colour.WHITE);
-        this.map[8][8].addPiece(rook);
-        this.whitePeaces_arrayList.add(rook);
-        //create Knights
-        Knight knight = new Knight(8, 2, Colour.WHITE);
-        this.map[8][2].addPiece(knight);
-        this.whitePeaces_arrayList.add(knight);
-        knight = new Knight(8, 7, Colour.WHITE);
-        this.map[8][7].addPiece(knight);
-        this.whitePeaces_arrayList.add(knight);
-    }
-
-    //fertig
-    public void initialiseBlackPieces() {
-        this.blackPeaces_arrayList = new ArrayList();
-        //create Pawns
-        for(int i = 1; i < 9; ++i) {
-            Pawn var2 = new Pawn(2, i, Colour.BLACK);
-            this.map[2][i].addPiece(var2);
-            this.blackPeaces_arrayList.add(var2);
-        }
-        //create Pieces.Queen
-        Queen queen = new Queen(1, 4, Colour.BLACK);
-        this.map[1][4].addPiece(queen);
-        this.blackPeaces_arrayList.add(queen);
-        //create Pieces.King
-        this.blackKing = new King(1, 5, Colour.BLACK);
-        this.map[1][5].addPiece(this.blackKing);
-        this.blackPeaces_arrayList.add(this.blackKing);
-        //create Bishops
-        Bishop bishop = new Bishop(1, 3, Colour.BLACK);
-        this.map[1][3].addPiece(bishop);
-        this.blackPeaces_arrayList.add(bishop);
-        bishop = new Bishop(1, 6, Colour.BLACK);
-        this.map[1][6].addPiece(bishop);
-        this.blackPeaces_arrayList.add(bishop);
-        //create Kings
-        Rook rook = new Rook(1, 1, Colour.BLACK);
-        this.map[1][1].addPiece(rook);
-        this.blackPeaces_arrayList.add(rook);
-        rook = new Rook(1, 8, Colour.BLACK);
-        this.map[1][8].addPiece(rook);
-        this.blackPeaces_arrayList.add(rook);
-        //create Knights
-        Knight knight = new Knight(1, 2, Colour.BLACK);
-        this.map[1][2].addPiece(knight);
-        this.blackPeaces_arrayList.add(knight);
-        knight = new Knight(1, 7, Colour.BLACK);
-        this.map[1][7].addPiece(knight);
-        this.blackPeaces_arrayList.add(knight);
-    }
 
     //fertig
     public void initialisePlayer() {
@@ -301,8 +228,12 @@ public class Board implements ActionListener, Serializable {
             }
         }
 
-        this.initialiseWhitePieces();
-        this.initialiseBlackPieces();
+        this.map = Initalizer.map;
+        this.whitePeaces_arrayList=Initalizer.whitePieces_arrayList;
+        this.blackPeaces_arrayList=Initalizer.blackPieces_arrayList;
+        this.blackKing= (King)blackPeaces_arrayList.get(0);
+        this.whiteKing= (King)whitePeaces_arrayList.get(0);
+
         this.initialiseHashMAP();
         this.turn = 0;
     }
