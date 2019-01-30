@@ -59,7 +59,7 @@ public class Board implements ActionListener, Serializable {
 
     public King whiteKing;
     public King blackKing;
-    private int turn;
+    private Enum colorAtTurn;
     private Cell selectedCell;
 
     private boolean checkFlag;
@@ -99,7 +99,7 @@ public class Board implements ActionListener, Serializable {
         this.initialiseBoard();
         this.initialiseTurnAndCheckLabels();
 
-        this.turn = 0;
+        this.colorAtTurn = Colour.WHITE;
         this.checkFlag = false;
         this.checkMateFlag = false;
         this.boardFrame.add(this.player1Panel, "North");
@@ -199,7 +199,7 @@ public class Board implements ActionListener, Serializable {
         this.whiteKing= (King)whitePeaces_arrayList.get(0);
 
         //this.initialiseHashMAP();
-        this.turn = 0;
+        this.colorAtTurn = Colour.WHITE;
     }
 
     public void setVisibleFalse() {
@@ -222,13 +222,13 @@ public class Board implements ActionListener, Serializable {
         this.turnLabel.setText("    " + name + "'s turn   ");
     }
 
-    public int getTurn() {
-        return this.turn;
+    public Enum getColorAtTurn() {
+        return this.colorAtTurn;
     }
 
-    public void setTurn(int turn) {
-        this.turn = turn;
-        if (turn == 0) {
+    public void setTurn(Enum colourToTorn) {
+        this.colorAtTurn = colourToTorn;
+        if (colorAtTurn == Colour.WHITE) {
             this.setTurnLabel(this.player2_JLabel.getText());
         } else {
             this.setTurnLabel(this.player1_JLabel.getText());
@@ -257,17 +257,14 @@ public class Board implements ActionListener, Serializable {
         Cell cell = (Cell)actionEvent.getSource();
         Piece piece = cell.getPiece();
         Colour test ;
-        if(turn == 0){
-            test = Colour.WHITE;
-        }else
-            test = Colour.BLACK;
+
         //wenn figur ausgewählt ist oder die angeklickte Cell markiert ist
         if (piece != null || this.highlightedCells.contains(cell)) {
             //führe Zug aus
             if (this.highlightedCells.contains(cell)) {
                 this.movePiece(cell);
                 //markiere Felder
-            } else if (piece != null && test == cell.getColour()) {
+            } else if (piece != null && colorAtTurn == cell.getColour()) {
                 ArrayList validMovesList = piece.getValidMoves(this.map, cell.x, cell.y, false);
                 this.highlightCells(validMovesList,piece.pieceId);
                 this.selectedCell = cell;
@@ -302,7 +299,8 @@ public class Board implements ActionListener, Serializable {
         nextPlayersTurn();
 
         //check for check
-        if(turn%2 == 0) {
+        //turn already changed. So White did a Move at beginning of method . Now is blacks turn and it has to be checked it black is in check
+        if(colorAtTurn == Colour.WHITE) {
             this.checkFlag = Check.check(this.map, Colour.WHITE);
             this.checkMateFlag = Check.checkMate(Colour.WHITE, whitePeaces_arrayList,blackPeaces_arrayList,map );
         }else {
@@ -318,7 +316,7 @@ public class Board implements ActionListener, Serializable {
 
         if (this.checkFlag && this.checkMateFlag) {
             String winnerName;
-            if (this.turn == 0) {
+            if (this.colorAtTurn == Colour.WHITE) {
                 winnerName = "Black Wins";
             } else {
                 winnerName = "White Wins";
@@ -398,11 +396,12 @@ public class Board implements ActionListener, Serializable {
     }
 
     private void nextPlayersTurn() {
-        this.turn = (this.turn + 1) % 2;
-        if (this.turn == 0) {
-            this.setTurnLabel(this.player2_JLabel.getText());
-        } else {
+        if(colorAtTurn == Colour.WHITE){
+            colorAtTurn = Colour.BLACK;
             this.setTurnLabel(this.player1_JLabel.getText());
+        }else{
+            colorAtTurn = Colour.WHITE;
+            this.setTurnLabel(this.player2_JLabel.getText());
         }
     }
 
@@ -451,7 +450,7 @@ public class Board implements ActionListener, Serializable {
     public void setPlayerJLabels(String p1name, String p2name) {
         this.player1_JLabel.setText(p1name);
         this.player2_JLabel.setText(p2name);
-        if (this.turn == 0) {
+        if (this.colorAtTurn == Colour.WHITE) {
             this.setTurnLabel(this.player2_JLabel.getText());
         } else {
             this.setTurnLabel(this.player1_JLabel.getText());
