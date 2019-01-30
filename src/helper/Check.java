@@ -5,10 +5,42 @@ import Pieces.Piece;
 import logic.Board;
 import logic.Cell;
 
+import java.util.ArrayList;
+
 public class Check {
     private static Board board;
 
     Check() {
+    }
+
+    public static boolean checkMate(Colour c, ArrayList<Piece> whiteList,ArrayList<Piece> blackList, Cell[][]map ) {
+        boolean checkmate = true;
+        ArrayList arrayList;
+        Piece piece;
+
+        if (c == Colour.WHITE) {
+            //try to get for every piece all valid moves
+            //if no move possible, it means there is no move to come out of the check = checkmate
+            for(int i = 0; i < whiteList.size(); ++i) {
+                piece = (Piece)whiteList.get(i);
+                arrayList = piece.getValidMoves(map, piece.getX(), piece.getY(), false);
+                if (!arrayList.isEmpty()) {
+                    checkmate = false;
+                    break;
+                }
+            }
+        } else {
+            for(int i = 0; i < blackList.size(); ++i) {
+                piece = (Piece)blackList.get(i);
+                arrayList = piece.getValidMoves(map, piece.getX(), piece.getY(), false);
+                if (!arrayList.isEmpty()) {
+                    checkmate = false;
+                    break;
+                }
+            }
+        }
+
+        return checkmate;
     }
 
     public static boolean check(Cell[][] var0, Colour colour) {

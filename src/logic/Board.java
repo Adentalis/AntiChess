@@ -50,8 +50,6 @@ public class Board implements ActionListener, Serializable {
     JMenuItem saveGame;
     JMenuItem loadGame;
 
-
-
     private HashMap<String, Integer> blackPiece;
     private HashMap<String, Integer> whitePiece;
     public Cell[][] map;
@@ -62,6 +60,7 @@ public class Board implements ActionListener, Serializable {
     private boolean checkFlag;
     private int turn;
     private Cell selectedCell;
+
     public ArrayList<Piece> whitePeaces_arrayList;
     public ArrayList<Piece> blackPeaces_arrayList;
     private boolean checkMateFlag;
@@ -419,18 +418,20 @@ public class Board implements ActionListener, Serializable {
         }
 
         //check for check
-        if(turn%2 == 0)
-        this.checkFlag = Check.check(this.map, Colour.WHITE);
-        else
+        if(turn%2 == 0) {
+            this.checkFlag = Check.check(this.map, Colour.WHITE);
+            this.checkMateFlag = Check.checkMate(Colour.WHITE, whitePeaces_arrayList,blackPeaces_arrayList,map );
+        }else {
             this.checkFlag = Check.check(this.map, Colour.BLACK);
-
+            this.checkMateFlag = Check.checkMate(Colour.BLACK, whitePeaces_arrayList,blackPeaces_arrayList,map );
+        }
         if (this.checkFlag) {
             this.checkLabel.setText("     Check!!    ");
         } else {
             this.checkLabel.setText("               ");
         }
 
-        this.checkMateFlag = this.checkMate();
+
         if (this.checkFlag && this.checkMateFlag) {
             String winnerName;
             if (this.turn == 0) {
@@ -445,8 +446,8 @@ public class Board implements ActionListener, Serializable {
             this.gameEnder = new GameEnds(this);
             this.gameEnder.endGame("DRAW");
         }
-
     }
+
     //fertig
     private void highlightCells(ArrayList<Cell> validMovesList, String pieceId) {
         //TEST start
@@ -478,37 +479,6 @@ public class Board implements ActionListener, Serializable {
     }
 
 
-    public boolean checkMate() {
-        boolean checkmate = true;
-        ArrayList arrayList;
-        Piece piece;
-
-        if (this.turn == 0) {
-            //try to get for every piece all valid moves
-            //if no move possible, it means there is no move to come out of the check = checkmate
-            for(int i = 0; i < this.whitePeaces_arrayList.size(); ++i) {
-                piece = (Piece)this.whitePeaces_arrayList.get(i);
-                arrayList = piece.getValidMoves(this.map, piece.getX(), piece.getY(), false);
-                if (!arrayList.isEmpty()) {
-                    checkmate = false;
-                    break;
-                }
-            }
-        } else {
-            for(int i = 0; i < this.blackPeaces_arrayList.size(); ++i) {
-                piece = (Piece)this.blackPeaces_arrayList.get(i);
-                arrayList = piece.getValidMoves(this.map, piece.getX(), piece.getY(), false);
-                if (!arrayList.isEmpty()) {
-                    checkmate = false;
-                    break;
-                }
-            }
-        }
-
-        this.checkMateFlag = checkmate;
-        return checkmate;
-    }
-
     public void endTheGame(String var1) {
         this.gameEnder.endGame(var1);
     }
@@ -526,12 +496,6 @@ public class Board implements ActionListener, Serializable {
             }
         });
     }
-
-    //This Method can be used to change the Color of the Cells ingame
-    //removed
-
-
-    //NOW
 
 }
 
