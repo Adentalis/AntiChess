@@ -221,19 +221,9 @@ public class Board implements ActionListener, Serializable {
     public void setTurnLabel(String name) {
         this.turnLabel.setText("    " + name + "'s turn   ");
     }
-
+    //is used by load game in menulistener Todo
     public Enum getColorAtTurn() {
         return this.colorAtTurn;
-    }
-
-    public void setTurn(Enum colourToTorn) {
-        this.colorAtTurn = colourToTorn;
-        if (colorAtTurn == Colour.WHITE) {
-            this.setTurnLabel(this.player2_JLabel.getText());
-        } else {
-            this.setTurnLabel(this.player1_JLabel.getText());
-        }
-
     }
 
     public HashMap<String, Integer> getWhiteHashMap() {
