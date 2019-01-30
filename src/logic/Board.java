@@ -184,84 +184,6 @@ public class Board implements ActionListener, Serializable {
         this.timePanel.add(this.checkLabel);
     }
 
-    //TODO
-    public void boardReset() {
-        for(int i = 1; i < 9; ++i) {
-            for(int j = 1; j < 9; ++j) {
-                this.map[i][j].removePiece();
-            }
-        }
-
-        this.map = Initalizer.map;
-        this.whitePeaces_arrayList=Initalizer.whitePieces_arrayList;
-        this.blackPeaces_arrayList=Initalizer.blackPieces_arrayList;
-        this.blackKing= (King)blackPeaces_arrayList.get(0);
-        this.whiteKing= (King)whitePeaces_arrayList.get(0);
-
-        //this.initialiseHashMAP();
-        this.colorAtTurn = Colour.WHITE;
-    }
-
-    public void setVisibleFalse() {
-        this.boardFrame.setVisible(false);
-    }
-
-    public void setVisibleTrue() {
-        this.boardFrame.setVisible(true);
-    }
-
-    public String getPlayer1Name() {
-        return this.player1_JLabel.getText();
-    }
-
-    public String getPlayer2Name() {
-        return this.player2_JLabel.getText();
-    }
-
-    public void setTurnLabel(String name) {
-        this.turnLabel.setText("    " + name + "'s turn   ");
-    }
-    //is used by load game in menulistener Todo
-    public Enum getColorAtTurn() {
-        return this.colorAtTurn;
-    }
-
-    public HashMap<String, Integer> getWhiteHashMap() {
-        return this.whitePiece;
-    }
-
-    public HashMap<String, Integer> getBlackHashMap() {
-        return this.blackPiece;
-    }
-
-    public void setHashMaps(HashMap<String, Integer> var1, HashMap<String, Integer> var2) {
-        this.whitePiece = var1;
-        this.blackPiece = var2;
-    }
-
-    public Cell getSquare(int x, int y) {
-        return this.map[x][y];
-    }
-
-    public void actionPerformed(ActionEvent actionEvent) {
-        Cell cell = (Cell)actionEvent.getSource();
-        Piece piece = cell.getPiece();
-        Colour test ;
-
-        //wenn figur ausgewählt ist oder die angeklickte Cell markiert ist
-        if (piece != null || this.highlightedCells.contains(cell)) {
-            //führe Zug aus
-            if (this.highlightedCells.contains(cell)) {
-                this.movePiece(cell);
-                //markiere Felder
-            } else if (piece != null && colorAtTurn == cell.getColour()) {
-                ArrayList validMovesList = piece.getValidMoves(this.map, cell.x, cell.y, false);
-                this.highlightCells(validMovesList,piece.pieceId);
-                this.selectedCell = cell;
-            }
-        }
-    }
-
     //targetCell = the Cell the Pieces.Piece wants to move
     //fertig
     public void movePiece(Cell targetCell) {
@@ -271,8 +193,8 @@ public class Board implements ActionListener, Serializable {
         -update die Zelle mit der neuen Figur die auf dieses Feld gezogen ist
         -unhighlight all Cells
         -check if PawnPromoted
-        -nächster Zug
-
+        -check for check/checkMate
+        -nächster Spieler am Zug
          */
 
         Piece piece = this.selectedCell.getPiece();
@@ -286,16 +208,18 @@ public class Board implements ActionListener, Serializable {
         unHighlightAllCells();
 
         checkForPomotedPawn(targetCell);
-        nextPlayersTurn();
 
         //check for check
-        //turn already changed. So White did a Move at beginning of method . Now is blacks turn and it has to be checked it black is in check
+        //White did a move so check if black is check
+        //Just check for checkmate if there is a check
         if(colorAtTurn == Colour.WHITE) {
-            this.checkFlag = Check.check(this.map, Colour.WHITE);
-            this.checkMateFlag = Check.checkMate(Colour.WHITE, whitePeaces_arrayList,blackPeaces_arrayList,map );
-        }else {
             this.checkFlag = Check.check(this.map, Colour.BLACK);
-            this.checkMateFlag = Check.checkMate(Colour.BLACK, whitePeaces_arrayList,blackPeaces_arrayList,map );
+            if(checkFlag)
+                this.checkMateFlag = Check.checkMate(Colour.BLACK, whitePeaces_arrayList,blackPeaces_arrayList,map );
+        }else {
+            this.checkFlag = Check.check(this.map, Colour.WHITE);
+            if(checkFlag)
+                this.checkMateFlag = Check.checkMate(Colour.WHITE, whitePeaces_arrayList,blackPeaces_arrayList,map );
         }
 
         if (this.checkFlag) {
@@ -306,7 +230,7 @@ public class Board implements ActionListener, Serializable {
 
         if (this.checkFlag && this.checkMateFlag) {
             String winnerName;
-            if (this.colorAtTurn == Colour.WHITE) {
+            if (this.colorAtTurn == Colour.BLACK) {
                 winnerName = "Black Wins";
             } else {
                 winnerName = "White Wins";
@@ -318,6 +242,7 @@ public class Board implements ActionListener, Serializable {
             this.gameEnder = new GameEnds(this);
             this.gameEnder.endGame("DRAW");
         }
+        nextPlayersTurn();
     }
 
     private void checkForPomotedPawn(Cell targetCell) {
@@ -424,18 +349,97 @@ public class Board implements ActionListener, Serializable {
         Cell tempCell;
         if (!this.highlightedCells.isEmpty()) {
             for(int i = 0; i < this.highlightedCells.size(); ++i) {
-                tempCell = (Cell)this.highlightedCells.get(i);
+                tempCell = this.highlightedCells.get(i);
                 tempCell.setBorder(var3);
             }
             this.highlightedCells.clear();
         }
 
         for(int i = 0; i < validMovesList.size(); ++i) {
-            tempCell = (Cell)validMovesList.get(i);
+            tempCell = validMovesList.get(i);
             tempCell.setBorder(var2);
             this.highlightedCells.add(tempCell);
         }
     }
+
+    //TODO
+    public void boardReset() {
+        for(int i = 1; i < 9; ++i) {
+            for(int j = 1; j < 9; ++j) {
+                this.map[i][j].removePiece();
+            }
+        }
+
+        this.map = Initalizer.map;
+        this.whitePeaces_arrayList=Initalizer.whitePieces_arrayList;
+        this.blackPeaces_arrayList=Initalizer.blackPieces_arrayList;
+        this.blackKing= (King)blackPeaces_arrayList.get(0);
+        this.whiteKing= (King)whitePeaces_arrayList.get(0);
+
+        //this.initialiseHashMAP();
+        this.colorAtTurn = Colour.WHITE;
+    }
+
+    public void setVisibleFalse() {
+        this.boardFrame.setVisible(false);
+    }
+
+    public void setVisibleTrue() {
+        this.boardFrame.setVisible(true);
+    }
+
+    public String getPlayer1Name() {
+        return this.player1_JLabel.getText();
+    }
+
+    public String getPlayer2Name() {
+        return this.player2_JLabel.getText();
+    }
+
+    public void setTurnLabel(String name) {
+        this.turnLabel.setText("    " + name + "'s turn   ");
+    }
+    //is used by load game in menulistener Todo
+    public Enum getColorAtTurn() {
+        return this.colorAtTurn;
+    }
+
+    public HashMap<String, Integer> getWhiteHashMap() {
+        return this.whitePiece;
+    }
+
+    public HashMap<String, Integer> getBlackHashMap() {
+        return this.blackPiece;
+    }
+
+    public void setHashMaps(HashMap<String, Integer> var1, HashMap<String, Integer> var2) {
+        this.whitePiece = var1;
+        this.blackPiece = var2;
+    }
+
+    public Cell getSquare(int x, int y) {
+        return this.map[x][y];
+    }
+
+    public void actionPerformed(ActionEvent actionEvent) {
+        Cell cell = (Cell)actionEvent.getSource();
+        Piece piece = cell.getPiece();
+        Colour test ;
+
+        //wenn figur ausgewählt ist oder die angeklickte Cell markiert ist
+        if (piece != null || this.highlightedCells.contains(cell)) {
+            //führe Zug aus
+            if (this.highlightedCells.contains(cell)) {
+                this.movePiece(cell);
+                //markiere Felder
+            } else if (piece != null && colorAtTurn == cell.getColour()) {
+                ArrayList validMovesList = piece.getValidMoves(this.map, cell.x, cell.y, false);
+                this.highlightCells(validMovesList,piece.pieceId);
+                this.selectedCell = cell;
+            }
+        }
+    }
+
     //this is just done once in Main. Can be removed and names send via Constructor
     public void setPlayerJLabels(String p1name, String p2name) {
         this.player1_JLabel.setText(p1name);
