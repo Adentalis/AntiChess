@@ -14,16 +14,14 @@ public class Check {
     }
 
     public static boolean checkMate(Colour c, ArrayList<Piece> whiteList,ArrayList<Piece> blackList, Cell[][]map ) {
-        boolean checkmate = true;
-        ArrayList arrayList;
-        Piece piece;
+        boolean checkmate ;
 
         if (c == Colour.WHITE) {
             //try to get for every piece all valid moves
             //if no move possible, it means there is no move to come out of the check = checkmate
-            checkmate = isCheckmate(whiteList, map, checkmate);
+            checkmate = isCheckmate(whiteList, map, true);
         } else {
-            checkmate = isCheckmate(blackList, map, checkmate);
+            checkmate = isCheckmate(blackList, map, true);
         }
 
         return checkmate;
@@ -32,8 +30,8 @@ public class Check {
     private static boolean isCheckmate(ArrayList<Piece> whiteList, Cell[][] map, boolean checkmate) {
         Piece piece;
         ArrayList arrayList;
-        for(int i = 0; i < whiteList.size(); ++i) {
-            piece = (Piece)whiteList.get(i);
+        for (Piece aWhiteList : whiteList) {
+            piece = (Piece) aWhiteList;
             arrayList = piece.getValidMoves(map, piece.getX(), piece.getY(), false);
             if (!arrayList.isEmpty()) {
                 checkmate = false;
