@@ -6,6 +6,7 @@ import logic.Cell;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Initalizer {
 
@@ -14,12 +15,32 @@ public class Initalizer {
     public static  ArrayList<Piece> blackPieces_arrayList;
     public static Color blackCellColor;
     public static Color whiteCellColor;
+    public static HashMap<String, Integer> blackPiece;
+    public static HashMap<String, Integer> whitePiece;
 
     public static void initPiecesAndMap(){
         initMap();
+        initHashMap();
         initWhitePieces();
         initBlackPieces();
 
+    }
+
+    private static void initHashMap() {
+        whitePiece = new HashMap();
+        blackPiece = new HashMap();
+        whitePiece.put("PAWN", 8);
+        blackPiece.put("PAWN", 8);
+        whitePiece.put("KING", 1);
+        blackPiece.put("KING", 1);
+        whitePiece.put("QUEEN", 1);
+        blackPiece.put("QUEEN", 1);
+        whitePiece.put("ROOK", 2);
+        blackPiece.put("ROOK", 2);
+        whitePiece.put("KNIGHT", 2);
+        blackPiece.put("KNIGHT", 2);
+        whitePiece.put("BISHOP", 2);
+        blackPiece.put("BISHOP", 2);
     }
 
     private static void initMap() {

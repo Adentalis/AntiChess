@@ -50,19 +50,19 @@ public class Board implements ActionListener, Serializable {
     JMenuItem saveGame;
     JMenuItem loadGame;
 
+    public Cell[][] map;
     private HashMap<String, Integer> blackPiece;
     private HashMap<String, Integer> whitePiece;
-    public Cell[][] map;
+    public ArrayList<Piece> whitePeaces_arrayList;
+    public ArrayList<Piece> blackPeaces_arrayList;
     private ArrayList<Cell> highlightedCells = new ArrayList();
 
     public King whiteKing;
     public King blackKing;
-    private boolean checkFlag;
     private int turn;
     private Cell selectedCell;
 
-    public ArrayList<Piece> whitePeaces_arrayList;
-    public ArrayList<Piece> blackPeaces_arrayList;
+    private boolean checkFlag;
     private boolean checkMateFlag;
     public GameEnds gameEnder;
 
@@ -82,10 +82,21 @@ public class Board implements ActionListener, Serializable {
         this.timePanel = new JPanel();
         GridLayout gridLayout2 = new GridLayout(3, 0, 10, 0);
         this.timePanel.setLayout(gridLayout2);
+
         this.initialiseMenuBar();
         this.boardFrame.setJMenuBar(this.jMenuBar);
 
-        this.initialisePlayer();
+        Initalizer.initPiecesAndMap();
+        this.map = Initalizer.map;
+        this.blackPiece=Initalizer.blackPiece;
+        this.whitePiece=Initalizer.whitePiece;
+        this.whitePeaces_arrayList=Initalizer.whitePieces_arrayList;
+        this.blackPeaces_arrayList=Initalizer.blackPieces_arrayList;
+        this.blackKing= (King)blackPeaces_arrayList.get(0);
+        this.whiteKing= (King)whitePeaces_arrayList.get(0);
+
+
+        this.initialisePlayerLabel();
         this.initialiseBoard();
         this.initialiseTurnAndCheckLabels();
 
@@ -100,78 +111,6 @@ public class Board implements ActionListener, Serializable {
         this.closeWindow();
     }
 
-    public void initialiseBoard() {
-
-        //Description for Cells A-H & 1-8
-        JLabel[] character = new JLabel[9];
-        JLabel[] numbers = new JLabel[8];
-
-        //create characters - first one is empty
-        character[0] = new JLabel("  ", 0);
-        this.boardPanel.add(character[0]);
-        for(int i = 1; i < 9; ++i) {
-            character[i] = new JLabel("" + (char)(97 + i - 1), 0);
-            this.boardPanel.add(character[i]);
-        }
-
-        Initalizer.initPiecesAndMap();
-
-        this.map = Initalizer.map;
-        this.whitePeaces_arrayList=Initalizer.whitePieces_arrayList;
-        this.blackPeaces_arrayList=Initalizer.blackPieces_arrayList;
-        this.blackKing= (King)blackPeaces_arrayList.get(0);
-        this.whiteKing= (King)whitePeaces_arrayList.get(0);
-
-        //creates numbers and fill Cells with Color
-        for( int i = 1; i < 9; ++i) {
-            int j = 0;
-
-            numbers[j] = new JLabel("" + (9 - i), 0);
-            this.boardPanel.add(numbers[j++]);
-
-            for(int k = 1; k < 9; ++k) {
-
-                //each Cell is now in ActionListener
-                this.map[i][k].addActionListener(this);
-                this.boardPanel.add(this.map[i][k]);
-            }
-        }
-
-        this.initialiseHashMAP();
-        Check.setBoardObject(this);
-        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        this.boardFrame.setLocation(dimension.width / 2 - this.boardFrame.getSize().width / 2, dimension.height / 2 - this.boardFrame.getSize().height / 2);
-        this.boardFrame.getRootPane().setWindowDecorationStyle(0);
-    }
-
-    //fertig
-    public void initialisePlayer() {
-        this.player1_JLabel = new JLabel();
-        this.player1_JLabel.setFont(new Font("Serif", 0, 15));
-        this.player2_JLabel = new JLabel();
-        this.player2_JLabel.setFont(new Font("Serif", 0, 15));
-        this.player1Panel.add(this.player1_JLabel);
-        this.player2Panel.add(this.player2_JLabel);
-    }
-
-    public void initialiseHashMAP() {
-        this.whitePiece = new HashMap();
-        this.blackPiece = new HashMap();
-        this.whitePiece.put("PAWN", 8);
-        this.blackPiece.put("PAWN", 8);
-        this.whitePiece.put("KING", 1);
-        this.blackPiece.put("KING", 1);
-        this.whitePiece.put("QUEEN", 1);
-        this.blackPiece.put("QUEEN", 1);
-        this.whitePiece.put("ROOK", 2);
-        this.blackPiece.put("ROOK", 2);
-        this.whitePiece.put("KNIGHT", 2);
-        this.blackPiece.put("KNIGHT", 2);
-        this.whitePiece.put("BISHOP", 2);
-        this.blackPiece.put("BISHOP", 2);
-    }
-
-    //fertig
     public void initialiseMenuBar() {
         this.jMenu = new JMenu("File");
         this.newGame = new JMenuItem("New Game");
@@ -192,9 +131,50 @@ public class Board implements ActionListener, Serializable {
 
         this.jMenuBar = new JMenuBar();
         this.jMenuBar.add(this.jMenu);
-
     }
 
+    public void initialisePlayerLabel() {
+        this.player1_JLabel = new JLabel();
+        this.player1_JLabel.setFont(new Font("Serif", 0, 15));
+        this.player2_JLabel = new JLabel();
+        this.player2_JLabel.setFont(new Font("Serif", 0, 15));
+        this.player1Panel.add(this.player1_JLabel);
+        this.player2Panel.add(this.player2_JLabel);
+    }
+
+    public void initialiseBoard() {
+
+        //Description for Cells A-H & 1-8
+        JLabel[] character = new JLabel[9];
+        JLabel[] numbers = new JLabel[8];
+
+        //create characters - first one is empty
+        character[0] = new JLabel("  ", 0);
+        this.boardPanel.add(character[0]);
+        for(int i = 1; i < 9; ++i) {
+            character[i] = new JLabel("" + (char)(97 + i - 1), 0);
+            this.boardPanel.add(character[i]);
+        }
+
+        //creates numbers and fill Cells with Color
+        for( int i = 1; i < 9; ++i) {
+            int j = 0;
+
+            numbers[j] = new JLabel("" + (9 - i), 0);
+            this.boardPanel.add(numbers[j++]);
+
+            for(int k = 1; k < 9; ++k) {
+                //each Cell is now in ActionListener
+                this.map[i][k].addActionListener(this);
+                this.boardPanel.add(this.map[i][k]);
+            }
+        }
+
+        Check.setBoardObject(this);
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        this.boardFrame.setLocation(dimension.width / 2 - this.boardFrame.getSize().width / 2, dimension.height / 2 - this.boardFrame.getSize().height / 2);
+        this.boardFrame.getRootPane().setWindowDecorationStyle(0);
+    }
 
 
     public void initialiseTurnAndCheckLabels() {
@@ -207,7 +187,7 @@ public class Board implements ActionListener, Serializable {
         this.timePanel.add(this.checkLabel);
     }
 
-    //fertig
+    //TODO
     public void boardReset() {
         for(int i = 1; i < 9; ++i) {
             for(int j = 1; j < 9; ++j) {
@@ -221,7 +201,7 @@ public class Board implements ActionListener, Serializable {
         this.blackKing= (King)blackPeaces_arrayList.get(0);
         this.whiteKing= (King)whitePeaces_arrayList.get(0);
 
-        this.initialiseHashMAP();
+        //this.initialiseHashMAP();
         this.turn = 0;
     }
     //fertig
