@@ -95,7 +95,6 @@ public class Board implements ActionListener, Serializable {
         this.blackKing= (King)blackPeaces_arrayList.get(0);
         this.whiteKing= (King)whitePeaces_arrayList.get(0);
 
-
         this.initialisePlayerLabel();
         this.initialiseBoard();
         this.initialiseTurnAndCheckLabels();
@@ -159,12 +158,11 @@ public class Board implements ActionListener, Serializable {
         //creates numbers and fill Cells with Color
         for( int i = 1; i < 9; ++i) {
             int j = 0;
-
             numbers[j] = new JLabel("" + (9 - i), 0);
             this.boardPanel.add(numbers[j++]);
 
             for(int k = 1; k < 9; ++k) {
-                //each Cell is now in ActionListener
+                //each Cell is now in ActionListener and rendered on screen
                 this.map[i][k].addActionListener(this);
                 this.boardPanel.add(this.map[i][k]);
             }

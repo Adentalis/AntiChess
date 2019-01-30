@@ -21,25 +21,25 @@ public class Check {
         if (c == Colour.WHITE) {
             //try to get for every piece all valid moves
             //if no move possible, it means there is no move to come out of the check = checkmate
-            for(int i = 0; i < whiteList.size(); ++i) {
-                piece = (Piece)whiteList.get(i);
-                arrayList = piece.getValidMoves(map, piece.getX(), piece.getY(), false);
-                if (!arrayList.isEmpty()) {
-                    checkmate = false;
-                    break;
-                }
-            }
+            checkmate = isCheckmate(whiteList, map, checkmate);
         } else {
-            for(int i = 0; i < blackList.size(); ++i) {
-                piece = (Piece)blackList.get(i);
-                arrayList = piece.getValidMoves(map, piece.getX(), piece.getY(), false);
-                if (!arrayList.isEmpty()) {
-                    checkmate = false;
-                    break;
-                }
-            }
+            checkmate = isCheckmate(blackList, map, checkmate);
         }
 
+        return checkmate;
+    }
+
+    private static boolean isCheckmate(ArrayList<Piece> whiteList, Cell[][] map, boolean checkmate) {
+        Piece piece;
+        ArrayList arrayList;
+        for(int i = 0; i < whiteList.size(); ++i) {
+            piece = (Piece)whiteList.get(i);
+            arrayList = piece.getValidMoves(map, piece.getX(), piece.getY(), false);
+            if (!arrayList.isEmpty()) {
+                checkmate = false;
+                break;
+            }
+        }
         return checkmate;
     }
 
