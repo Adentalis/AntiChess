@@ -278,38 +278,20 @@ public class Board implements ActionListener, Serializable {
     //targetCell = the Cell the Pieces.Piece wants to move
     //fertig
     public void movePiece(Cell targetCell) {
+        /*
+        -ändere von der Figut die zieht die x,y Werte
+        -wenn Figur geschlagen wird entferne diese aus dem Spiel (Hashmap und ArrayList)
+        -update die Zelle mit der neuen Figur die auf dieses Feld gezogen ist
+        -nächster Zug
+        -unhighlight all Cells
+
+         */
+
         Piece piece = this.selectedCell.getPiece();
         piece.setXY(targetCell.x, targetCell.y);
 
-        //If on the Target is an enemy Pieces.Piece
-        if (!targetCell.isEmpty()) {
-            int pieceId;
-            //if Enemy is White
-            //remove the hit Pieces.Piece from the whitePiece_arrayList and from hashtable
-            if (targetCell.getColour() == Colour.WHITE) {
-                pieceId = (Integer)this.whitePiece.get(targetCell.getPieceId());
-                this.whitePiece.put(targetCell.getPieceId(), pieceId - 1);
+        checkForEnemyPieceOnTargetCellAndRemoveFromGame(targetCell);
 
-                for(int i = 0; i < this.whitePeaces_arrayList.size(); ++i) {
-                    if (targetCell.x == ((Piece)this.whitePeaces_arrayList.get(i)).getX() && targetCell.y == ((Piece)this.whitePeaces_arrayList.get(i)).getY()) {
-                        this.whitePeaces_arrayList.remove(i);
-                        break;
-                    }
-                }
-                //Else Enemy is Black
-            } else {
-                pieceId = (Integer)this.blackPiece.get(targetCell.getPieceId());
-                this.blackPiece.put(targetCell.getPieceId(), pieceId - 1);
-
-                for(int i = 0; i < this.blackPeaces_arrayList.size(); ++i) {
-                    if (targetCell.x == ((Piece)this.blackPeaces_arrayList.get(i)).getX() && targetCell.y == ((Piece)this.blackPeaces_arrayList.get(i)).getY()) {
-                        this.blackPeaces_arrayList.remove(i);
-                        break;
-                    }
-                }
-            }
-        }
-        //remove hit Pieces.Piece and place new Pieces.Piece there
         targetCell.addPiece(piece);
         this.selectedCell.removePiece();
 
@@ -320,7 +302,9 @@ public class Board implements ActionListener, Serializable {
         if (!targetCell.isEmpty() && targetCell.getPieceId().equals("PAWN") && (targetCell.x == 1 || targetCell.x == 8)) {
             Pawn promotedPawn = (Pawn)targetCell.getPiece();
             promotedPawn.promotePawn(this.boardFrame, this.map);
+
             if (promotedPawn.getColour() == Colour.WHITE) {
+                //find the pawn in arrayList and removes it
                 for(int i = 0; i < this.whitePeaces_arrayList.size(); ++i) {
                     if (promotedPawn.x == ((Piece)this.whitePeaces_arrayList.get(i)).getX() && promotedPawn.y == ((Piece)this.whitePeaces_arrayList.get(i)).getY()) {
                         this.whitePeaces_arrayList.remove(i);
@@ -370,6 +354,38 @@ public class Board implements ActionListener, Serializable {
         } else if (this.checkMateFlag) {
             this.gameEnder = new GameEnds(this);
             this.gameEnder.endGame("DRAW");
+        }
+    }
+
+    private void checkForEnemyPieceOnTargetCellAndRemoveFromGame(Cell targetCell) {
+        //If on the Target is an enemy Pieces.Piece
+        if (!targetCell.isEmpty()) {
+            int pieceId;
+            //if Enemy is White remove the hit Pieces.Piece from the whitePiece_arrayList and from hashtable
+            if (targetCell.getColour() == Colour.WHITE) {
+                pieceId = (Integer)this.whitePiece.get(targetCell.getPieceId());
+                //remove from Hashmap
+                this.whitePiece.put(targetCell.getPieceId(), pieceId - 1);
+
+                for(int i = 0; i < this.whitePeaces_arrayList.size(); ++i) {
+                    if (targetCell.x == ((Piece)this.whitePeaces_arrayList.get(i)).getX() && targetCell.y == ((Piece)this.whitePeaces_arrayList.get(i)).getY()) {
+                        //remove from ArrayList
+                        this.whitePeaces_arrayList.remove(i);
+                        break;
+                    }
+                }
+                //Else Enemy is Black
+            } else {
+                pieceId = (Integer)this.blackPiece.get(targetCell.getPieceId());
+                this.blackPiece.put(targetCell.getPieceId(), pieceId - 1);
+
+                for(int i = 0; i < this.blackPeaces_arrayList.size(); ++i) {
+                    if (targetCell.x == ((Piece)this.blackPeaces_arrayList.get(i)).getX() && targetCell.y == ((Piece)this.blackPeaces_arrayList.get(i)).getY()) {
+                        this.blackPeaces_arrayList.remove(i);
+                        break;
+                    }
+                }
+            }
         }
     }
 
