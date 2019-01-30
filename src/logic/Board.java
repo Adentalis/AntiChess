@@ -1,6 +1,7 @@
 package logic;
 
 import Pieces.*;
+import Players.RandomBot;
 import helper.Check;
 import helper.Colour;
 import helper.Initalizer;
@@ -66,6 +67,8 @@ public class Board implements ActionListener, Serializable {
     private boolean checkFlag;
     private boolean checkMateFlag;
     public GameEnds gameEnder;
+
+    RandomBot bot = new RandomBot("BOT");
 
     Board() {
         BorderLayout borderLayout = new BorderLayout();
@@ -246,6 +249,8 @@ public class Board implements ActionListener, Serializable {
             this.gameEnder.endGame("DRAW");
         }
         nextPlayersTurn();
+        if(colorAtTurn==Colour.BLACK)
+            bot.updateAllMovesList(map,blackPeaces_arrayList);
     }
 
     private void checkForPomotedPawn(Cell targetCell) {

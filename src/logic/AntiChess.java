@@ -19,14 +19,7 @@ public class AntiChess {
 
         RandomBot bot = new RandomBot("BOT");
 
-        ArrayList<Piece> whitePeaces_arrayList = board.whitePeaces_arrayList;
-        for(Piece p : whitePeaces_arrayList){
-            System.out.println(p.toString());
-            ArrayList<Cell> possibleMoves= p.getValidMoves(board.map,p.x,p.y,false);
-            for(Cell c :possibleMoves ){
-                System.out.println(c.toString());
-            }
-        }
+
 
     }
 }
