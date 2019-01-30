@@ -86,7 +86,6 @@ public class Board implements ActionListener, Serializable {
         this.boardFrame.setJMenuBar(this.jMenuBar);
 
         this.initialisePlayer();
-        this.map = new Cell[9][9];
         this.initialiseBoard();
         this.initialiseTurnAndCheckLabels();
 
@@ -266,9 +265,7 @@ public class Board implements ActionListener, Serializable {
         } else {
             this.setTurnLabel(this.player1_JLabel.getText());
         }
-
         this.boardFrame.setVisible(true);
-
     }
 
     public int getTurn() {
@@ -284,7 +281,6 @@ public class Board implements ActionListener, Serializable {
         }
 
     }
-
 
     public HashMap<String, Integer> getWhiteHashMap() {
         return this.whitePiece;
