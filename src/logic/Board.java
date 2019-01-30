@@ -313,16 +313,8 @@ public class Board implements ActionListener, Serializable {
         targetCell.addPiece(piece);
         this.selectedCell.removePiece();
 
-        //change turn
-        this.turn = (this.turn + 1) % 2;
-        if (this.turn == 0) {
-            this.setTurnLabel(this.player2_JLabel.getText());
-        } else {
-            this.setTurnLabel(this.player1_JLabel.getText());
-        }
-
-        //unhighlight all Cells
-        unhighlightAllCells();
+        nextPlayersTurn();
+        unHighlightAllCells();
 
         //if a Pieces.Pawn reached other side of map (PROMOTE Scenario)
         if (!targetCell.isEmpty() && targetCell.getPieceId().equals("PAWN") && (targetCell.x == 1 || targetCell.x == 8)) {
@@ -381,7 +373,16 @@ public class Board implements ActionListener, Serializable {
         }
     }
 
-    private void unhighlightAllCells() {
+    private void nextPlayersTurn() {
+        this.turn = (this.turn + 1) % 2;
+        if (this.turn == 0) {
+            this.setTurnLabel(this.player2_JLabel.getText());
+        } else {
+            this.setTurnLabel(this.player1_JLabel.getText());
+        }
+    }
+
+    private void unHighlightAllCells() {
         if (!this.highlightedCells.isEmpty()) {
             LineBorder var6 = new LineBorder(Color.BLACK, 0);
 
