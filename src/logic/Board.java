@@ -66,7 +66,6 @@ public class Board implements ActionListener, Serializable {
     public ArrayList<Piece> blackPeaces_arrayList;
     private boolean checkMateFlag;
     public GameEnds gameEnder;
-    private Long saveTime;
 
     Board() {
         BorderLayout borderLayout = new BorderLayout();
@@ -150,7 +149,7 @@ public class Board implements ActionListener, Serializable {
         this.boardFrame.getRootPane().setWindowDecorationStyle(0);
     }
 
-    //fertig - init all peaces and put them in map and whitePeaces_arrayList
+    //fertig - init all peaces and put them in map and whitePieces_arrayList
     public void initialiseWhitePieces() {
         this.whitePeaces_arrayList = new ArrayList();
 
@@ -231,6 +230,16 @@ public class Board implements ActionListener, Serializable {
         this.blackPeaces_arrayList.add(knight);
     }
 
+    //fertig
+    public void initialisePlayer() {
+        this.player1_JLabel = new JLabel();
+        this.player1_JLabel.setFont(new Font("Serif", 0, 15));
+        this.player2_JLabel = new JLabel();
+        this.player2_JLabel.setFont(new Font("Serif", 0, 15));
+        this.player1Panel.add(this.player1_JLabel);
+        this.player2Panel.add(this.player2_JLabel);
+    }
+
     public void initialiseHashMAP() {
         this.whitePiece = new HashMap();
         this.blackPiece = new HashMap();
@@ -272,15 +281,7 @@ public class Board implements ActionListener, Serializable {
 
     }
 
-    //fertig
-    public void initialisePlayer() {
-        this.player1_JLabel = new JLabel();
-        this.player1_JLabel.setFont(new Font("Serif", 0, 15));
-        this.player2_JLabel = new JLabel();
-        this.player2_JLabel.setFont(new Font("Serif", 0, 15));
-        this.player1Panel.add(this.player1_JLabel);
-        this.player2Panel.add(this.player2_JLabel);
-    }
+
 
     public void initialiseTurnAndCheckLabels() {
 
