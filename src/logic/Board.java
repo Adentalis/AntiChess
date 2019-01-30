@@ -282,8 +282,9 @@ public class Board implements ActionListener, Serializable {
         -ändere von der Figut die zieht die x,y Werte
         -wenn Figur geschlagen wird entferne diese aus dem Spiel (Hashmap und ArrayList)
         -update die Zelle mit der neuen Figur die auf dieses Feld gezogen ist
-        -nächster Zug
         -unhighlight all Cells
+        -check if PawnPromoted
+        -nächster Zug
 
          */
 
@@ -295,8 +296,44 @@ public class Board implements ActionListener, Serializable {
         targetCell.addPiece(piece);
         this.selectedCell.removePiece();
 
-        nextPlayersTurn();
         unHighlightAllCells();
+
+        checkForPomotedPawn(targetCell);
+        nextPlayersTurn();
+
+        //check for check
+        if(turn%2 == 0) {
+            this.checkFlag = Check.check(this.map, Colour.WHITE);
+            this.checkMateFlag = Check.checkMate(Colour.WHITE, whitePeaces_arrayList,blackPeaces_arrayList,map );
+        }else {
+            this.checkFlag = Check.check(this.map, Colour.BLACK);
+            this.checkMateFlag = Check.checkMate(Colour.BLACK, whitePeaces_arrayList,blackPeaces_arrayList,map );
+        }
+
+        if (this.checkFlag) {
+            this.checkLabel.setText("     Check!!    ");
+        } else {
+            this.checkLabel.setText("               ");
+        }
+
+        if (this.checkFlag && this.checkMateFlag) {
+            String winnerName;
+            if (this.turn == 0) {
+                winnerName = "Black Wins";
+            } else {
+                winnerName = "White Wins";
+            }
+
+            this.gameEnder = new GameEnds(this);
+            this.gameEnder.endGame(winnerName);
+        } else if (this.checkMateFlag) {
+            this.gameEnder = new GameEnds(this);
+            this.gameEnder.endGame("DRAW");
+        }
+    }
+
+    private void checkForPomotedPawn(Cell targetCell) {
+        //in this case there is rightnow a pawn on x =1/8 so it has to be promoted and be changed by a new Piece
 
         //if a Pieces.Pawn reached other side of map (PROMOTE Scenario)
         if (!targetCell.isEmpty() && targetCell.getPieceId().equals("PAWN") && (targetCell.x == 1 || targetCell.x == 8)) {
@@ -325,35 +362,6 @@ public class Board implements ActionListener, Serializable {
             } else {
                 this.blackPeaces_arrayList.add(this.map[promotedPawn.getX()][promotedPawn.getY()].getPiece());
             }
-        }
-
-        //check for check
-        if(turn%2 == 0) {
-            this.checkFlag = Check.check(this.map, Colour.WHITE);
-            this.checkMateFlag = Check.checkMate(Colour.WHITE, whitePeaces_arrayList,blackPeaces_arrayList,map );
-        }else {
-            this.checkFlag = Check.check(this.map, Colour.BLACK);
-            this.checkMateFlag = Check.checkMate(Colour.BLACK, whitePeaces_arrayList,blackPeaces_arrayList,map );
-        }
-        if (this.checkFlag) {
-            this.checkLabel.setText("     Check!!    ");
-        } else {
-            this.checkLabel.setText("               ");
-        }
-
-        if (this.checkFlag && this.checkMateFlag) {
-            String winnerName;
-            if (this.turn == 0) {
-                winnerName = "Black Wins";
-            } else {
-                winnerName = "White Wins";
-            }
-
-            this.gameEnder = new GameEnds(this);
-            this.gameEnder.endGame(winnerName);
-        } else if (this.checkMateFlag) {
-            this.gameEnder = new GameEnds(this);
-            this.gameEnder.endGame("DRAW");
         }
     }
 
