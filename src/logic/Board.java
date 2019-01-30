@@ -50,8 +50,7 @@ public class Board implements ActionListener, Serializable {
     JMenuItem saveGame;
     JMenuItem loadGame;
 
-    Color blackCellColor;
-    Color whiteCellColor;
+
 
     private HashMap<String, Integer> blackPiece;
     private HashMap<String, Integer> whitePiece;
@@ -104,8 +103,6 @@ public class Board implements ActionListener, Serializable {
     }
 
     public void initialiseBoard() {
-        this.whiteCellColor = new Color(204, 153, 255);
-        this.blackCellColor = new Color(102, 0, 102);
 
         //Description for Cells A-H & 1-8
         JLabel[] character = new JLabel[9];
@@ -119,6 +116,14 @@ public class Board implements ActionListener, Serializable {
             this.boardPanel.add(character[i]);
         }
 
+        Initalizer.initPiecesAndMap();
+
+        this.map = Initalizer.map;
+        this.whitePeaces_arrayList=Initalizer.whitePieces_arrayList;
+        this.blackPeaces_arrayList=Initalizer.blackPieces_arrayList;
+        this.blackKing= (King)blackPeaces_arrayList.get(0);
+        this.whiteKing= (King)whitePeaces_arrayList.get(0);
+
         //creates numbers and fill Cells with Color
         for( int i = 1; i < 9; ++i) {
             int j = 0;
@@ -127,26 +132,13 @@ public class Board implements ActionListener, Serializable {
             this.boardPanel.add(numbers[j++]);
 
             for(int k = 1; k < 9; ++k) {
-                this.map[i][k] = new Cell(i, k);
-                if ((i % 2 == 0 || i * k % 2 != 1) && (i % 2 != 0 || k % 2 != 0)) {
-                    if (i % 2 != 0 && i * k % 2 == 0 || i % 2 == 0 && k % 2 == 1) {
-                        this.map[i][k].setBackground(this.blackCellColor);
-                    }
-                } else {
-                    this.map[i][k].setBackground(this.whiteCellColor);
-                }
+
                 //each Cell is now in ActionListener
                 this.map[i][k].addActionListener(this);
                 this.boardPanel.add(this.map[i][k]);
             }
         }
-        Initalizer.initPiecesAndMap(map);
 
-        this.map = Initalizer.map;
-        this.whitePeaces_arrayList=Initalizer.whitePieces_arrayList;
-        this.blackPeaces_arrayList=Initalizer.blackPieces_arrayList;
-        this.blackKing= (King)blackPeaces_arrayList.get(0);
-        this.whiteKing= (King)whitePeaces_arrayList.get(0);
 
         this.initialiseHashMAP();
         Check.setBoardObject(this);
@@ -537,21 +529,7 @@ public class Board implements ActionListener, Serializable {
 
     //This Method can be used to change the Color of the Cells ingame
     //removed
-    void setCellColor(Color var1, Color var2) {
-        this.whiteCellColor = var1;
-        this.blackCellColor = var2;
 
-        for(int i = 1; i < 9; ++i) {
-            for(int j = 1; j < 9; ++j) {
-                if (i % 2 != 0 && i * j % 2 == 1 || i % 2 == 0 && j % 2 == 0) {
-                    this.map[i][j].setBackground(this.whiteCellColor);
-                } else if (i % 2 != 0 && i * j % 2 == 0 || i % 2 == 0 && j % 2 == 1) {
-                    this.map[i][j].setBackground(this.blackCellColor);
-                }
-            }
-        }
-
-    }
 
     //NOW
 

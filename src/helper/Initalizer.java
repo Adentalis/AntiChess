@@ -3,6 +3,8 @@ package helper;
 import Pieces.*;
 import logic.Cell;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Initalizer {
@@ -10,12 +12,34 @@ public class Initalizer {
     public static  Cell[][] map;
     public static ArrayList<Piece> whitePieces_arrayList;
     public static  ArrayList<Piece> blackPieces_arrayList;
+    public static Color blackCellColor;
+    public static Color whiteCellColor;
 
-    public static void initPiecesAndMap(Cell[][]m){
-        map = m;
+    public static void initPiecesAndMap(){
+        initMap();
         initWhitePieces();
         initBlackPieces();
 
+    }
+
+    private static void initMap() {
+        whiteCellColor = new Color(204, 153, 255);
+        blackCellColor = new Color(102, 0, 102);
+        map= new Cell[9][9];
+
+        for( int i = 1; i < 9; ++i) {
+
+            for(int k = 1; k < 9; ++k) {
+                map[i][k] = new Cell(i, k);
+                if ((i % 2 == 0 || i * k % 2 != 1) && (i % 2 != 0 || k % 2 != 0)) {
+                    if (i % 2 != 0 && i * k % 2 == 0 || i % 2 == 0 && k % 2 == 1) {
+                        map[i][k].setBackground(blackCellColor);
+                    }
+                } else {
+                    map[i][k].setBackground(whiteCellColor);
+                }
+            }
+        }
     }
 
     private static void initWhitePieces(){
@@ -100,5 +124,21 @@ public class Initalizer {
         knight = new Knight(1, 7, Colour.BLACK);
         map[1][7].addPiece(knight);
         blackPieces_arrayList.add(knight);
+    }
+
+    public void setCellColor(Color var1, Color var2) {
+        this.whiteCellColor = var1;
+        this.blackCellColor = var2;
+
+        for(int i = 1; i < 9; ++i) {
+            for(int j = 1; j < 9; ++j) {
+                if (i % 2 != 0 && i * j % 2 == 1 || i % 2 == 0 && j % 2 == 0) {
+                    this.map[i][j].setBackground(this.whiteCellColor);
+                } else if (i % 2 != 0 && i * j % 2 == 0 || i % 2 == 0 && j % 2 == 1) {
+                    this.map[i][j].setBackground(this.blackCellColor);
+                }
+            }
+        }
+
     }
 }
