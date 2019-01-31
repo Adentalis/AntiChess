@@ -6,6 +6,7 @@ import Players.RandomBot;
 import helper.Initalizer;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public class AntiChess {

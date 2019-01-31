@@ -209,6 +209,7 @@ public class Board implements ActionListener, Serializable {
         checkForEnemyPieceOnTargetCellAndRemoveFromGame(targetCell);
 
         targetCell.addPiece(piece);
+
         this.selectedCell.removePiece();
 
         unHighlightAllCells();
@@ -218,14 +219,14 @@ public class Board implements ActionListener, Serializable {
         //check for check
         //White did a move so check if black is check
         //Just check for checkmate if there is a check
-        if(colorAtTurn == Colour.WHITE) {
+        if (colorAtTurn == Colour.WHITE) {
             this.checkFlag = Check.check(this.map, Colour.BLACK);
-            if(checkFlag)
-                this.checkMateFlag = Check.checkMate(Colour.BLACK, whitePeaces_arrayList,blackPeaces_arrayList,map );
-        }else {
+            if (checkFlag)
+                this.checkMateFlag = Check.checkMate(Colour.BLACK, whitePeaces_arrayList, blackPeaces_arrayList, map);
+        } else {
             this.checkFlag = Check.check(this.map, Colour.WHITE);
-            if(checkFlag)
-                this.checkMateFlag = Check.checkMate(Colour.WHITE, whitePeaces_arrayList,blackPeaces_arrayList,map );
+            if (checkFlag)
+                this.checkMateFlag = Check.checkMate(Colour.WHITE, whitePeaces_arrayList, blackPeaces_arrayList, map);
         }
 
         if (this.checkFlag) {
@@ -249,8 +250,7 @@ public class Board implements ActionListener, Serializable {
             this.gameEnder.endGame("DRAW");
         }
         nextPlayersTurn();
-        if(colorAtTurn==Colour.BLACK)
-            bot.updateAllMovesList(map,blackPeaces_arrayList);
+
     }
 
     private void checkForPomotedPawn(Cell targetCell) {
