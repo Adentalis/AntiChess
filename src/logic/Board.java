@@ -188,11 +188,15 @@ public class Board implements ActionListener, Serializable {
         this.timePanel.add(this.checkLabel);
     }
 
+    public void updateBoard(Move move){
+
+    }
+
     //targetCell = the Cell the Pieces.Piece wants to move
     //fertig
     public void movePiece(Move move) {
         /*
-        -ändere von der Figut die zieht die x,y Werte
+        -ändere von der Figur die zieht die x,y Werte
         -wenn Figur geschlagen wird entferne diese aus dem Spiel (Hashmap und ArrayList)
         -update die Zelle mit der neuen Figur die auf dieses Feld gezogen ist
         -unhighlight all Cells
@@ -249,7 +253,7 @@ public class Board implements ActionListener, Serializable {
             this.gameEnder = new GameEnds(this);
             this.gameEnder.endGame("DRAW");
         }
-        nextPlayersTurn();
+
 
     }
 
