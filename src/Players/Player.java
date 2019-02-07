@@ -2,6 +2,7 @@ package Players;
 
 import Pieces.Piece;
 import helper.Colour;
+import helper.Printer;
 import logic.Cell;
 import logic.Move;
 
@@ -21,6 +22,7 @@ public abstract class Player {
 
     public abstract Move doNextMove();
 
+    //get
     public void updateAllMovesList(Cell[][]map , ArrayList<Piece> botPieces){
         movesList.clear();
         for(Piece p : botPieces){
@@ -29,14 +31,7 @@ public abstract class Player {
                 movesList.add(new Move(c,p,0));
             }
         }
-        int i = 1;
+        Printer.allMoves(movesList);
 
-        System.out.println("Moves to do this Turn: "+ movesList.size());
-        for(Move m : movesList){
-            System.out.println(i+++". Zug: "+ m.piece.pieceId+"["+m.piece.x+"|"+m.piece.y+"] nach ["+m.target.x+"|"+m.target.y+"]" );
-        }
     }
-
-
-
 }
