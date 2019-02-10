@@ -20,7 +20,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -49,11 +48,9 @@ public class Gui implements ActionListener, Serializable {
     JMenuItem loadGame;
 
     public Cell[][] map;
-    private HashMap<String, Integer> blackPiece;
-    private HashMap<String, Integer> whitePiece;
+
     public ArrayList<Piece> whitePeaces_arrayList;
     public ArrayList<Piece> blackPeaces_arrayList;
-
 
 
     Gui() {
@@ -78,8 +75,6 @@ public class Gui implements ActionListener, Serializable {
 
         Initalizer.initPiecesAndMap();
         this.map = Initalizer.map;
-        this.blackPiece=Initalizer.blackPiece;
-        this.whitePiece=Initalizer.whitePiece;
         this.whitePeaces_arrayList=Initalizer.whitePieces_arrayList;
         this.blackPeaces_arrayList=Initalizer.blackPieces_arrayList;
 
@@ -159,6 +154,7 @@ public class Gui implements ActionListener, Serializable {
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         this.boardFrame.setLocation(dimension.width / 2 - this.boardFrame.getSize().width / 2, dimension.height / 2 - this.boardFrame.getSize().height / 2);
         this.boardFrame.getRootPane().setWindowDecorationStyle(0);
+        //this lets the gui be visible
         this.boardFrame.setVisible(true);
     }
 
@@ -205,6 +201,13 @@ public class Gui implements ActionListener, Serializable {
 
             }
         });
+    }
+
+    public void updateGui(Move m){
+        Cell target = m.target;
+        Piece pieceToMove = m.piece;
+
+
     }
 
 }
