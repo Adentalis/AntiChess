@@ -14,11 +14,12 @@ public class AntiChess {
     public static void main(String[] var0) {
 
 
-        Board board = new Board();
-        board.setPlayerJLabels("Daniel", "Bot12");
-        board.setTurnLabel(board.getPlayer2Name());
+       // Board board = new Board();
+        //board.setPlayerJLabels("Daniel", "Bot12");
+        //board.setTurnLabel(board.getPlayer2Name());
 
-        RandomBot bot = new RandomBot("BOT");
+        Gui g = new Gui();
+
 
 
 
