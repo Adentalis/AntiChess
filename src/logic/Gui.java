@@ -3,6 +3,7 @@ package logic;
 
 import Pieces.*;
 
+import helper.Colour;
 import helper.Initalizer;
 
 import java.awt.BorderLayout;
@@ -207,7 +208,17 @@ public class Gui implements ActionListener, Serializable {
         Cell target = m.target;
         Piece pieceToMove = m.piece;
 
+        int pieceX = pieceToMove.x;
+        int pieceY = pieceToMove.y;
 
+        Colour pieceColour = pieceToMove.colour;
+
+        target.addPiece(pieceToMove);
+        map[5][5] = target;
+
+        if(pieceColour==Colour.WHITE){
+
+        }
     }
 
 }
