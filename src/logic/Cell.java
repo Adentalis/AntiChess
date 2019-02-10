@@ -10,7 +10,7 @@ import javax.swing.JButton;
 public class Cell extends JButton implements Serializable {
     public int x;
     public int y;
-    private Piece piece;
+    public Piece piece;
 
     public Cell(int x, int y) {
         this.x = x;

@@ -5,14 +5,9 @@ import Pieces.*;
 
 import helper.Colour;
 import helper.Initalizer;
+import helper.MoveHelper;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -40,6 +35,7 @@ public class Gui implements ActionListener, Serializable {
     private JLabel player2_JLabel;
     private JLabel turnLabel;
     private JLabel checkLabel;
+    private Button allMovesButton;
 
     private JMenuBar jMenuBar;
     private JMenu jMenu;
@@ -83,10 +79,17 @@ public class Gui implements ActionListener, Serializable {
         this.initialiseBoard();
         this.initialiseTurnAndCheckLabels();
 
+        this.allMovesButton = new Button();
+        this.allMovesButton.setLabel("alle Züge");
+        this.allMovesButton.addActionListener(this);
+
+
+
         this.boardFrame.add(this.player1Panel, "North");
         this.boardFrame.add(this.player2Panel, "South");
         this.boardFrame.add(this.boardPanel, "Center");
         this.boardFrame.add(this.timePanel, "East");
+        this.timePanel.add(this.allMovesButton, "Middle");
         this.setIcon();
         this.closeWindow();
     }
@@ -176,8 +179,15 @@ public class Gui implements ActionListener, Serializable {
     }
 
     public void actionPerformed(ActionEvent actionEvent) {
-        Cell cell = (Cell)actionEvent.getSource();
-        Piece piece = cell.getPiece();
+        if(actionEvent.getSource().equals(allMovesButton)){
+            //MoveHelper.getMovesList(map, Colour.WHITE);
+
+        }else {
+            Cell cell = (Cell) actionEvent.getSource();
+            Piece piece = cell.getPiece();
+        }
+
+
     }
 
     //fertig
