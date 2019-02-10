@@ -1,7 +1,7 @@
 package logic;
 
 import Pieces.*;
-import Players.RandomBot;
+
 import helper.Check;
 import helper.Colour;
 import helper.Initalizer;
@@ -68,7 +68,6 @@ public class Board implements ActionListener, Serializable {
     private boolean checkMateFlag;
     public GameEnds gameEnder;
 
-    RandomBot bot = new RandomBot("BOT");
 
     Board() {
         BorderLayout borderLayout = new BorderLayout();
@@ -253,7 +252,7 @@ public class Board implements ActionListener, Serializable {
             this.gameEnder = new GameEnds(this);
             this.gameEnder.endGame("DRAW");
         }
-
+        nextPlayersTurn();
 
     }
 
