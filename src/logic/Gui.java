@@ -71,9 +71,9 @@ public class Gui implements ActionListener, Serializable {
         this.boardFrame.setJMenuBar(this.jMenuBar);
 
         Initalizer.initPiecesAndMap();
-        this.map = Initalizer.map;
-        this.whitePeaces_arrayList=Initalizer.whitePieces_arrayList;
-        this.blackPeaces_arrayList=Initalizer.blackPieces_arrayList;
+        this.map = Initalizer.getMap();
+        this.whitePeaces_arrayList=Initalizer.getWhitePieces_arrayList();
+        this.blackPeaces_arrayList=Initalizer.getBlackPieces_arrayList();
 
         this.initialisePlayerLabel();
         this.initialiseBoard();

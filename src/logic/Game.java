@@ -2,6 +2,7 @@ package logic;
 
 import Pieces.Piece;
 import Players.Player;
+import Players.RandomBot;
 
 import java.util.ArrayList;
 
@@ -14,6 +15,11 @@ public class Game {
     public ArrayList<Piece> blackPieces_arrayList;
 
     boolean checkMate;
+
+    public Game(Player rndBot, Player rndBot2) {
+        this.whitePlayer = rndBot;
+        this.blackPlayer = rndBot2;
+    }
 
     public void startGame(){
 

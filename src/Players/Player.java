@@ -15,8 +15,9 @@ public abstract class Player {
     public ArrayList<Piece> piecesList;
     public Cell[][] map;
 
-    public Player(String name){
+    public Player(String name, Colour c){
         this.name = name;
+        this.colour = c;
         movesList= new ArrayList<>();
     }
 

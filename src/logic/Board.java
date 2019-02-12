@@ -90,11 +90,11 @@ public class Board implements ActionListener, Serializable {
         this.boardFrame.setJMenuBar(this.jMenuBar);
 
         Initalizer.initPiecesAndMap();
-        this.map = Initalizer.map;
-        this.blackPiece=Initalizer.blackPiece;
-        this.whitePiece=Initalizer.whitePiece;
-        this.whitePeaces_arrayList=Initalizer.whitePieces_arrayList;
-        this.blackPeaces_arrayList=Initalizer.blackPieces_arrayList;
+        this.map = Initalizer.getMap();
+        this.blackPiece=Initalizer.getBlackPiece();
+        this.whitePiece=Initalizer.getWhitePiece();
+        this.whitePeaces_arrayList=Initalizer.getWhitePieces_arrayList();
+        this.blackPeaces_arrayList=Initalizer.getBlackPieces_arrayList();
         this.blackKing= (King)blackPeaces_arrayList.get(0);
         this.whiteKing= (King)whitePeaces_arrayList.get(0);
 
@@ -381,11 +381,6 @@ public class Board implements ActionListener, Serializable {
             }
         }
 
-        this.map = Initalizer.map;
-        this.whitePeaces_arrayList=Initalizer.whitePieces_arrayList;
-        this.blackPeaces_arrayList=Initalizer.blackPieces_arrayList;
-        this.blackKing= (King)blackPeaces_arrayList.get(0);
-        this.whiteKing= (King)whitePeaces_arrayList.get(0);
 
         //this.initialiseHashMAP();
         this.colorAtTurn = Colour.WHITE;
