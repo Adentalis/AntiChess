@@ -15,10 +15,12 @@ public  class MoveHelper {
     public static ArrayList<Move> getMovesList(Cell[][] map, Colour c){
         ownPieces.clear();
         System.out.println(map.length);
-        for(int i = 1 ; i <= 7 ; i++){
-            for (int k = 1 ; k <=7 ; k++){
-                if(map[i][k].piece.colour == c){
-                    ownPieces.add(map[i][k].piece);
+        for(int i = 1 ; i <= 8 ; i++){
+            for (int k = 1 ; k <=8 ; k++){
+                if(map[i][k].piece != null) {
+                    if (map[i][k].piece.colour == c) {
+                        ownPieces.add(map[i][k].piece);
+                    }
                 }
             }
         }

@@ -88,6 +88,6 @@ public abstract class Piece implements Serializable {
     }
 
     public String toString(){
-        return pieceId+"  x:"+x+" y:"+y;
+        return pieceId+"  x:"+x+" y:"+y+ " colour: "+colour;
     }
 }

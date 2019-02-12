@@ -180,7 +180,7 @@ public class Gui implements ActionListener, Serializable {
 
     public void actionPerformed(ActionEvent actionEvent) {
         if(actionEvent.getSource().equals(allMovesButton)){
-            //MoveHelper.getMovesList(map, Colour.WHITE);
+            MoveHelper.getMovesList(map, Colour.WHITE);
 
         }else {
             Cell cell = (Cell) actionEvent.getSource();
