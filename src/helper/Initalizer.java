@@ -6,16 +6,19 @@ import logic.Cell;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-
+/*
+This class init all necesarry things to start a game
+ */
 public class Initalizer {
 
-    public static  Cell[][] map;
-    public static ArrayList<Piece> whitePieces_arrayList;
-    public static  ArrayList<Piece> blackPieces_arrayList;
-    public static Color blackCellColor;
-    public static Color whiteCellColor;
-    public static HashMap<String, Integer> blackPiece;
-    public static HashMap<String, Integer> whitePiece;
+    private static  Cell[][] map;
+    private static ArrayList<Piece> whitePieces_arrayList;
+    private static  ArrayList<Piece> blackPieces_arrayList;
+    private static Color blackCellColor;
+    private static Color whiteCellColor;
+    private static HashMap<String, Integer> blackPiece;
+    private static HashMap<String, Integer> whitePiece;
+
 
     public static void initPiecesAndMap(){
         initMap();
@@ -160,5 +163,32 @@ public class Initalizer {
             }
         }
 
+    }
+    public static Cell[][] getMap() {
+        return map;
+    }
+
+    public static ArrayList<Piece> getWhitePieces_arrayList() {
+        return whitePieces_arrayList;
+    }
+
+    public static ArrayList<Piece> getBlackPieces_arrayList() {
+        return blackPieces_arrayList;
+    }
+
+    public static Color getBlackCellColor() {
+        return blackCellColor;
+    }
+
+    public static Color getWhiteCellColor() {
+        return whiteCellColor;
+    }
+
+    public static HashMap<String, Integer> getBlackPiece() {
+        return blackPiece;
+    }
+
+    public static HashMap<String, Integer> getWhitePiece() {
+        return whitePiece;
     }
 }
