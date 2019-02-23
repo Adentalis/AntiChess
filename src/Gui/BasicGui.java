@@ -1,4 +1,4 @@
-package logic;
+package Gui;
 
 
 import Pieces.*;
@@ -6,6 +6,8 @@ import Pieces.*;
 import helper.Colour;
 import helper.Initalizer;
 import helper.MoveHelper;
+import logic.Cell;
+import logic.Move;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -25,7 +27,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class Gui implements ActionListener, Serializable {
+public class BasicGui implements ActionListener, Serializable {
     private JFrame boardFrame = new JFrame("AntiCHESS");
     private JPanel boardPanel;
     private JPanel player1Panel;
@@ -50,7 +52,7 @@ public class Gui implements ActionListener, Serializable {
     public ArrayList<Piece> blackPeaces_arrayList;
 
 
-    Gui() {
+    public BasicGui() {
         BorderLayout borderLayout = new BorderLayout();
         this.boardFrame.setLayout(borderLayout);
         this.boardFrame.setSize(800, 720);

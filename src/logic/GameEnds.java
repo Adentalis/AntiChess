@@ -1,5 +1,6 @@
 package logic;
 
+import Gui.PvPGui;
 import helper.PlayerNames;
 
 import java.awt.BorderLayout;
@@ -23,13 +24,13 @@ public class GameEnds extends JFrame implements ActionListener, Serializable {
     private JPanel buttonsPanel;
     private JButton newGame;
     private JButton nextGame;
-    private Board board;
+    private PvPGui pvPGui;
     private String dialogString = "What do you want to do now?";
     private JLabel resultText;
     private JLabel dialogText;
 
-    public GameEnds(Board board) {
-        this.board = board;
+    public GameEnds(PvPGui pvPGui) {
+        this.pvPGui = pvPGui;
         this.setSize(300, 200);
         this.dialogPanel = new JPanel();
         this.buttonsPanel = new JPanel();
@@ -56,21 +57,21 @@ public class GameEnds extends JFrame implements ActionListener, Serializable {
 
     public void endGame(String var1) {
         this.resultText.setText(var1 + "!");
-        this.board.setVisibleFalse();
+        this.pvPGui.setVisibleFalse();
     }
 
     public void actionPerformed(ActionEvent var1) {
         if (var1.getSource() == this.newGame) {
-            new PlayerNames(this.board);
-            this.board.boardReset();
+            new PlayerNames(this.pvPGui);
+            this.pvPGui.boardReset();
         } else {
-            this.board.boardReset();
+            this.pvPGui.boardReset();
             //geändert
-            this.board.setPlayerJLabels(this.board.getPlayer2Name(), this.board.getPlayer1Name());
+            this.pvPGui.setPlayerJLabels(this.pvPGui.getPlayer2Name(), this.pvPGui.getPlayer1Name());
         }
 
         this.setVisible(false);
-        this.board.setVisibleTrue();
+        this.pvPGui.setVisibleTrue();
     }
 
     void setIcon() {

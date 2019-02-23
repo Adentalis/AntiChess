@@ -2,13 +2,13 @@ package helper;
 
 import Pieces.King;
 import Pieces.Piece;
-import logic.Board;
+import Gui.PvPGui;
 import logic.Cell;
 
 import java.util.ArrayList;
 
 public class Check {
-    private static Board board;
+    private static PvPGui pvPGui;
 
     Check() {
     }
@@ -44,9 +44,9 @@ public class Check {
     public static boolean check(Cell[][] var0, Colour colour) {
         King king;
         if (colour == Colour.WHITE) {
-            king = board.whiteKing;
+            king = pvPGui.whiteKing;
         } else {
-            king = board.blackKing;
+            king = pvPGui.blackKing;
         }
 
         int[] var3 = new int[]{1, -1, 0, 0, 1, -1, 1, -1};
@@ -134,8 +134,8 @@ public class Check {
         return var7;
     }
 
-    public static void setBoardObject(Board b) {
-        board = b;
+    public static void setBoardObject(PvPGui b) {
+        pvPGui = b;
     }
 }
 

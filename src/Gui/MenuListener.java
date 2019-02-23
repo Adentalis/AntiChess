@@ -1,4 +1,6 @@
-package logic;
+package Gui;
+
+import Gui.PvPGui;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -16,21 +18,21 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 class MenuListener implements ActionListener, Serializable {
-    private Board board;
+    private PvPGui pvPGui;
 
-     MenuListener(Board board) {
-        this.board = board;
+     MenuListener(PvPGui pvPGui) {
+        this.pvPGui = pvPGui;
     }
 
     public void actionPerformed(ActionEvent var1) {
         JMenuItem var2 = (JMenuItem)var1.getSource();
-        if (var2 == this.board.newGame) {
+        if (var2 == this.pvPGui.newGame) {
             this.beginNewGame();
-        } else if (var2 == this.board.nextGame) {
+        } else if (var2 == this.pvPGui.nextGame) {
             this.beginNextGame();
-        } else if (var2 == this.board.saveGame) {
+        } else if (var2 == this.pvPGui.saveGame) {
             this.saveGames();
-        } else if (var2 == this.board.loadGame) {
+        } else if (var2 == this.pvPGui.loadGame) {
             this.loadGames();
         }
 
@@ -47,7 +49,7 @@ class MenuListener implements ActionListener, Serializable {
         }
 
 
-        this.board.boardReset();
+        this.pvPGui.boardReset();
     }
 
     private void beginNextGame() {
@@ -60,8 +62,8 @@ class MenuListener implements ActionListener, Serializable {
             return;
         }
 
-        this.board.boardReset();
-        this.board.setPlayerJLabels(this.board.getPlayer2Name(), this.board.getPlayer1Name());
+        this.pvPGui.boardReset();
+        this.pvPGui.setPlayerJLabels(this.pvPGui.getPlayer2Name(), this.pvPGui.getPlayer1Name());
     }
 
     private boolean saveGames() {
@@ -76,7 +78,7 @@ class MenuListener implements ActionListener, Serializable {
             try {
                 FileOutputStream var5 = new FileOutputStream(var4.getAbsolutePath() + ".sav");
                 ObjectOutputStream var6 = new ObjectOutputStream(var5);
-                var6.writeObject(this.board);
+                var6.writeObject(this.pvPGui);
                 var6.close();
                 var5.close();
             } catch (IOException var7) {
@@ -101,8 +103,8 @@ class MenuListener implements ActionListener, Serializable {
             try {
                 FileInputStream var5 = new FileInputStream(var4.getAbsolutePath());
                 ObjectInputStream var6 = new ObjectInputStream(var5);
-                Board board = (Board)var6.readObject();
-                this.loadBoard(board);
+                PvPGui pvPGui = (PvPGui)var6.readObject();
+                this.loadBoard(pvPGui);
                 var6.close();
                 var5.close();
             } catch (Exception var8) {
@@ -112,24 +114,24 @@ class MenuListener implements ActionListener, Serializable {
 
     }
 
-    private void loadBoard(Board board) {
+    private void loadBoard(PvPGui pvPGui) {
         //remove all peaces
         for(int i = 1; i < 9; ++i) {
             for(int j = 1; j < 9; ++j) {
-                this.board.getSquare(i, j).removePiece();
+                this.pvPGui.getSquare(i, j).removePiece();
             }
         }
 
-        this.board.setPlayerJLabels(board.getPlayer1Name(), board.getPlayer2Name());
+        this.pvPGui.setPlayerJLabels(pvPGui.getPlayer1Name(), pvPGui.getPlayer2Name());
 
         for(int i = 1; i < 9; ++i) {
             for(int j = 1; j < 9; ++j) {
-                this.board.getSquare(i, j).addPiece(board.getSquare(i, j).getPiece());
+                this.pvPGui.getSquare(i, j).addPiece(pvPGui.getSquare(i, j).getPiece());
             }
         }
         //TODO
-        //this.board.setTurn(board.getTurn());
-        this.board.setHashMaps(board.getWhiteHashMap(), board.getBlackHashMap());
+        //this.pvPGui.setTurn(pvPGui.getTurn());
+        this.pvPGui.setHashMaps(pvPGui.getWhiteHashMap(), pvPGui.getBlackHashMap());
 
     }
 

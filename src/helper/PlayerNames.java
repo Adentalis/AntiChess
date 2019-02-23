@@ -1,6 +1,6 @@
 package helper;
 
-import logic.Board;
+import Gui.PvPGui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -21,10 +21,10 @@ public class PlayerNames extends JFrame implements ActionListener, Serializable,
     private JButton submitButton = new JButton("Submit");
 
     private int timeLimit = 5;
-    private Board board;
+    private PvPGui pvPGui;
 
-    public PlayerNames(Board board) {
-        this.board = board;
+    public PlayerNames(PvPGui pvPGui) {
+        this.pvPGui = pvPGui;
         this.submitButton.addActionListener(this);
         this.textFieldInputPanel.setLayout(new BoxLayout(this.textFieldInputPanel, 1));
         BorderLayout var2 = new BorderLayout();
@@ -51,7 +51,7 @@ public class PlayerNames extends JFrame implements ActionListener, Serializable,
             String p1name ="Daniel";
             String p2name = "P2";
 
-            this.board.setPlayerJLabels(p1name, p2name);
+            this.pvPGui.setPlayerJLabels(p1name, p2name);
         } else {
             JSlider var4 = (JSlider)var1.getSource();
             if (!var4.getValueIsAdjusting()) {
