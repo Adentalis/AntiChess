@@ -11,9 +11,9 @@ This class init all necesarry things to start a game
  */
 public class Initalizer {
 
-    private static  Cell[][] map;
+    private static Cell[][] map;
     private static ArrayList<Piece> whitePieces_arrayList;
-    private static  ArrayList<Piece> blackPieces_arrayList;
+    private static ArrayList<Piece> blackPieces_arrayList;
     private static Color blackCellColor;
     private static Color whiteCellColor;
     private static HashMap<String, Integer> blackPiece;
@@ -164,6 +164,7 @@ public class Initalizer {
         }
 
     }
+
     public static Cell[][] getMap() {
         return map;
     }
@@ -174,14 +175,6 @@ public class Initalizer {
 
     public static ArrayList<Piece> getBlackPieces_arrayList() {
         return blackPieces_arrayList;
-    }
-
-    public static Color getBlackCellColor() {
-        return blackCellColor;
-    }
-
-    public static Color getWhiteCellColor() {
-        return whiteCellColor;
     }
 
     public static HashMap<String, Integer> getBlackPiece() {
