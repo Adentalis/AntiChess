@@ -30,12 +30,12 @@ public class Queen extends Piece {
         int var7 = x;
         int var8 = y;
 
-        for(int var9 = 0; var9 < 8; ++var9) {
-            var7 += var5[var9];
+        for(int i = 0; i < 8; ++i) {
+            var7 += var5[i];
 
-            for(var8 += var6[var9]; this.isValid(var7, var8) && map[var7][var8].isEmpty(); var8 += var6[var9]) {
+            for(var8 += var6[i]; this.isValid(var7, var8) && map[var7][var8].isEmpty(); var8 += var6[i]) {
                 this.pseudoValidMoves.add(map[var7][var8]);
-                var7 += var5[var9];
+                var7 += var5[i];
             }
 
             if (this.isValid(var7, var8) && map[var7][var8].getColour() != this.colour) {
