@@ -11,7 +11,7 @@ public class AntiChess {
 
     public static void main(String[] var0) {
 
-        if(true) {
+        if(false) {
             PvPGui board = new PvPGui();
             board.setPlayerJLabels("Daniel", "Bot12");
             board.setTurnLabel(board.getPlayer2Name());

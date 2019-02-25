@@ -85,8 +85,6 @@ public class BasicGui implements ActionListener, Serializable {
         this.allMovesButton.setLabel("alle Züge");
         this.allMovesButton.addActionListener(this);
 
-
-
         this.boardFrame.add(this.player1Panel, "North");
         this.boardFrame.add(this.player2Panel, "South");
         this.boardFrame.add(this.boardPanel, "Center");

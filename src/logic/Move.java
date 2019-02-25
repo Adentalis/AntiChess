@@ -15,4 +15,8 @@ public class Move {
         this.value = value;
     }
 
+    public String toString(){
+        return "Figure: " + piece.pieceId+ " [ "+piece.x+" | "+ piece.y+" ] moves to [ "+target.x + " | "+ target.y+ " ]";
+    }
+
 }
